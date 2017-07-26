@@ -22,11 +22,12 @@ using namespace std;
 
 class ThrowTheBall{
 	private:
-		struct Node{
-			int value;
-			Node* next;
-			Node* prev;
-		};
+                struct Node{
+                        int id = 0;
+                        int value = 0;
+                        struct Node* next;
+                        struct Node* prev;
+                };
 
 
 	public:
@@ -34,35 +35,47 @@ class ThrowTheBall{
 			if(M==1){
 				return 0;
 			}else{
-				int res;
+                                int res = 0;
 				//set up 
-				int initP;
-				Node* player;
+                                int initP = 0;
+                                Node* player = new Node();
 				Node* head = player;
-				while(initP<N){
-					Node* temp;
-					player->next = temp;
-					temp->prev = player;
-					player = temp;
+                                while(initP<N-1){
+                                        Node* temp = new Node();
+                                        player->next = temp;
+                                        player->id = initP;
+                                        temp->prev = player;
+                                        player = temp;
 					initP++;
-				}				
-				player->next = head;
-				head->prev = player;
-				player = head;
+                                }
+                                player->id = initP;
+                                player->next = head;
+                                head->prev = player;
+                                player = head;
+
 				//start
-				player->value += 1;
-				res++;
-				while(player->value != M){
-					if(player->value%2 != 0){
+                                //cout << "start here" << endl;
+                                player->value++;
+                                bool check = true;
+                                while(check){
+                                       // cout << "passing" << endl;
+                                        if(player->value==M){
+                                            check = false;
+                                            break;
+                                        }
+                                        //cout << player->value << endl;
+                                        if(player->value%2 != 0){
+                                                //cout << "pass to the prev" << endl;
 						for(int i=0;i<L;i++){
 							player = player->prev;
 						}
 					}else{
+                                                //cout << "pass to the next" << endl;
 						for(int i=0;i<L;i++){
 							player = player->next;
 						}
 					}
-					player->value += 1;
+                                        player->value++;
 					res++;
 				}	
 
@@ -70,3 +83,12 @@ class ThrowTheBall{
 			}
 		}
 };
+
+/*
+int main(){
+    ThrowTheBall test;
+    cout << test.timesThrown(15,4,9) << endl;
+
+    return 0;
+}
+*/
