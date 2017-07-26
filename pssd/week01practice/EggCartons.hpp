@@ -24,7 +24,7 @@ class EggCartons{
 	
 	public:
 		int minCartons(int n){
-			int res;
+                        int res = 0;
 			bool check = true;
 			while(check){
 				if(n<0){
