@@ -69,7 +69,7 @@ class CircularLine{
                                         station = station->right;
                                         start++;
                                 }
-                                for(int j=i+1;j<=length+2;j++){
+                                for(int j=i+1;j<=length+i;j++){
                                 	start = i;
                                     rightT = 0;
                                     leftT = 0;
