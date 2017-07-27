@@ -56,60 +56,53 @@ class CircularLine{
 			
                         //cout << "sum: " << sum << endl;
 
-                        /*test*/
                         station = head;
-                        for(int i=0;i<length;i++){
-                            //cout << station->time << endl;
-                            station = station->right;
-                        }
-
-
-			/*  */
+                        /*  */
                         int leftT = 0;
                         int rightT = 0;
                         int mindiff = 0;	//store the minimum of difference
                         int res = 0;
-                        for(int i=0;i<length;i++){
+                        for(int i=0;i<=length;i++){
                                 station = head;
                                 int start = 0;
                                 while(start<i){
                                         station = station->right;
                                         start++;
                                 }
-                                for(int j=i+1;j<=length;j++){
-                                        start = i;
-                                        rightT = 0;
-                                        leftT = 0;
-                                        /*case1: from right */
-					while(start<j){
-                                                rightT += station->time;
-						station = station->right;
-                                                start++;
-                                        }
-                                        //rightT += station->time;
-                                        /*case2: from left */
-                                        leftT = sum - rightT;
+                                for(int j=i+1;j<=length+2;j++){
+                                	start = i;
+                                    rightT = 0;
+                                    leftT = 0;
+                                    /*case1: from right */
+									while(start<j){
+                                    	rightT += station->time;
+										station = station->right;
+                                        start++;
+                                    }
+                                    //rightT += station->time;
+                                    /*case2: from left */
+                                    leftT = sum - rightT;
 
-                                        if(i==0 && j==1){
-						mindiff = abs(rightT-leftT);
-                                                if(rightT>=leftT){
-							res = leftT;
-                                                }else{
-							res = rightT;
-						}
+                                    if(i==0 && j==1){
+										mindiff = abs(rightT-leftT);
+                                        if(rightT>=leftT){
+											res = leftT;
+                                        }else{
+											res = rightT;
+										}
 						
-                                        }
-                                        if(abs(rightT-leftT) < mindiff){
-						mindiff = abs(rightT-leftT);
-                                                if(rightT>=leftT){
-                                                        res = leftT;
-                                                }else{
-                                                        res = rightT;
-						}
-					}
-                                        //cout << "leftT:"<<leftT<<"  rightT:"<<rightT<<endl;
-				}
-			}			
+                                    }
+                                    if(abs(rightT-leftT) < mindiff){
+										mindiff = abs(rightT-leftT);
+                                       	if(rightT>=leftT){
+                                        	res = leftT;
+                                        }else{
+                                            res = rightT;
+										}
+									}				
+                                     //cout << "leftT:"<<leftT<<"  rightT:"<<rightT<<endl;
+							}
+						}			
                         //cout << "mindiff " << mindiff << endl;
 
                         return res;
