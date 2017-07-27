@@ -58,19 +58,10 @@ class PartySeats{
                         attendees[i] = temp;
                     }
 					if(attendees[i][0]==attendees[j][0]){
-						bool check = true;
-                        int k = 1;
-                        while(check==true){
-							if(attendees[i][k]<attendees[j][k]){
- 								string temp = attendees[j];
- 	                       		attendees[j] = attendees[i];
-    	                    	attendees[i] = temp;
-								check = false;
-							}
-							if(attendees[i][k]>attendees[j][k]){
-								check = false;
-							}
-							k++;
+						if(attendees[i][1]<attendees[j][1]){
+ 							string temp = attendees[j];
+ 	                       	attendees[j] = attendees[i];
+    	                    attendees[i] = temp;
 						}
 					}
                 }
