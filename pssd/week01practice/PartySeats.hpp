@@ -68,6 +68,9 @@ class PartySeats{
     	                    	attendees[i] = temp;
 								check = false;
 							}
+							if(attendees[i][k]>attendees[j][k]){
+								check = false;
+							}
 						}
 					}
                 }
