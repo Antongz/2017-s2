@@ -63,6 +63,14 @@ class PartySeats{
  	                       	attendees[j] = attendees[i];
     	                    attendees[i] = temp;
 						}
+						if(attendees[i][1]==attendees[j][1]){
+							if(attendees[i][2]<attendees[j][2]){
+ 								string temp = attendees[j];
+ 	                    	   	attendees[j] = attendees[i];
+    	                	    attendees[i] = temp;
+							}
+						}
+						
 					}
                 }
             }
