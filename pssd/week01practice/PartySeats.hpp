@@ -44,7 +44,8 @@ class PartySeats{
 
             /* set up */
             int number = attendees.size();
-            if(number%2!=0 || number<=2){
+			int doubleCheck = number/2;
+            if(number%4!=0 || number<4){
                 return res;
             }
             int boyN = 0;
