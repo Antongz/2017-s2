@@ -44,7 +44,6 @@ class PartySeats{
 
             /* set up */
             int number = attendees.size();
-			int doubleCheck = number/2;
             if(number%4!=0 || number<4){
                 return res;
             }
@@ -60,8 +59,8 @@ class PartySeats{
                     }
 					if(attendees[i][0]==attendees[j][0]){
 						bool check = true;
-						int k = 1;
-						while(check){
+                        int k = 1;
+                        while(check==true){
 							if(attendees[i][k]<attendees[j][k]){
  								string temp = attendees[j];
  	                       		attendees[j] = attendees[i];
