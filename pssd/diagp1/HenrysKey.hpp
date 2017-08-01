@@ -8,12 +8,12 @@ class HenrysKey{
 public:
 	int howMany(string S){
 		int res = 0;
-		int length = s.length();	
+		int length = S.length();	
 		int i = 0;
 		int diff = 0;
 		bool checkSD = false;
 		int same = 0;
-		char* prev = S[0];
+		char prev = S[0];
 		for(i=1;i<length;i++){
 			if(prev!=S[i]){
 				diff++;
@@ -23,6 +23,7 @@ public:
 				checkSD = true;
 				same++;
 			}
+			prev = S[i];
 			
 		}
 
