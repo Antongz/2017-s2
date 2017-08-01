@@ -27,13 +27,14 @@ public:
 		sec = strtok(NULL,sym);
 		
 		
+		int minute = atoi(min);
 		int second = atoi(sec);
 		int secondD = second/10;
 		int secondR = second%10;
 		int newMin = 1000000;
 
-		int minD = min/10;
-		int minR = min%10;
+		int minD = minute/10;
+		int minR = minute%10;
 		if(secondD==5){
 			if((secondD+1)>=6)
 				secondD = 0;
