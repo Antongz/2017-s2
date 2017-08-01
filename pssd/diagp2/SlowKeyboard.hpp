@@ -36,9 +36,9 @@ public:
 		int minD = minute/10;
 		int minR = minute%10;
 		if(secondD==5){
-			if((secondD+1)>=6)
-				secondD = 0;
-
+			if((secondD+1)>=6){
+				//secondD = 0;
+			}
 			if(minD==5||minR==secondD){
 				if(secondD==0){
 					if((10-minR)==minimum){
