@@ -13,11 +13,7 @@ class SumOfPower{
 			int subsum = 0;
 			
 			for(int i=0;i<array.size();i++){
-				subsum = array[i];
-				for(int j=i+1;j<array.size();j++){
-					subsum += array[j];
-				}
-				sum += subsum;
+				sum += array.size() * array[i];
 			}
 
 
