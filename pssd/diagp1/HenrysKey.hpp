@@ -30,7 +30,7 @@ public:
 		if(length==1){
 			return 1;
 		}else{
-			return = diff + 1;
+			return diff + 1;
 		}
 	}
 
