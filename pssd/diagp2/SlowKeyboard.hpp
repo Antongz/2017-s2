@@ -31,7 +31,19 @@ public:
 		int secondD = second/10;
 		int secondR = second%10;
 		int newMin = 1000000;
-		
+
+		int minD = min/10;
+		int minR = min%10;
+		if(secondD==5){
+			if((secondD+1)>=6)
+				secondD = 0;
+
+			if(minD==5||minR==secondD){
+				if(secondD==0){
+					return minimum;
+				}				
+			}
+		}		
 		if(secondD<secondR){
 			newMin = (10-secondR)+secondD;
 		}
