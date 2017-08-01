@@ -31,7 +31,8 @@ public:
 		int secondD = second/10;
 		int secondR = second%10;
 
-		if(seconD<secondR){
+		
+		if(secondD<secondR){
 			int newMin = (10-secondR)+secondD;
 		}
 
