@@ -30,10 +30,10 @@ public:
 		int second = atoi(sec);
 		int secondD = second/10;
 		int secondR = second%10;
-
+		int newMin = 1000000;
 		
 		if(secondD<secondR){
-			int newMin = (10-secondR)+secondD;
+			newMin = (10-secondR)+secondD;
 		}
 
 
