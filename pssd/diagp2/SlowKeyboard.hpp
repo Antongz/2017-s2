@@ -26,14 +26,19 @@ public:
 		char* min = strtok(sec,sym);
 		sec = strtok(NULL,sym);
 		
-		int miniute = atoi(min);
-		int second = atoi(sec);
-
 		
+		int second = atoi(sec);
+		int secondD = second/10;
+		int secondR = second%10;
+
+		if(seconD<secondR){
+			int newMin = (10-secondR)+secondD;
+		}
 
 
-
-	
+		if(newMin<diff*2){
+			return newMin + minimum;
+		}	
 
 		return minimum + diff*2;
 
