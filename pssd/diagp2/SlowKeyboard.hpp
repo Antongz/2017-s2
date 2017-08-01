@@ -20,7 +20,7 @@ public:
 			prev = time[i]
 		}
 
-		const char* sym[2] = ":";
+		const char sym[2] = ":";
 		char* sec = new char[time.length()+1];
 		strcpy(sec,time.c_str());
 		char* min = strtok(sec,sym);
