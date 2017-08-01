@@ -41,7 +41,11 @@ public:
 
 			if(minD==5||minR==secondD){
 				if(secondD==0){
-					return minimum + 2;
+					if((10-minR)<=minimum){
+						return minimum;
+					}else{
+						return minimum + 2;
+					}
 				}				
 			}
 		}		
