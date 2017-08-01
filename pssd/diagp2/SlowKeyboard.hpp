@@ -19,7 +19,7 @@ public:
 
 			prev = time[i];
 		}
-
+		diff--;
 		const char sym[2] = ":";
 		char* sec = new char[time.length()+1];
 		strcpy(sec,time.c_str());
@@ -42,9 +42,9 @@ public:
 			if(minD==5||minR==secondD){
 				if(secondD==0){
 					if((10-minR)>=minimum){
-						if(diff*2< 10-minR)
+						if(diff*2< 10-minR){
 							return minimum + diff*2;
-						else{
+						}else{
 							return minimum + (10-minR) ;
 						}
 					}else{
