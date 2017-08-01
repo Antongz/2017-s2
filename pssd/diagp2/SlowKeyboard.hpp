@@ -11,13 +11,13 @@ public:
 	int enterTime(string time){
 		int res = 0;
 		int diff = 0;
-		int min = 4;
+		int minimum = 4;
 		char prev = time[0];
 		for(int i=1;i<time.length();i++){
 			if(prev!=time[i])
 				diff++;
 
-			prev = time[i]
+			prev = time[i];
 		}
 
 		const char sym[2] = ":";
@@ -35,7 +35,7 @@ public:
 
 	
 
-		return min + diff*2;
+		return minimum + diff*2;
 
 
 
