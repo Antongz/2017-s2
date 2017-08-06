@@ -59,7 +59,7 @@ class AlternateColors{
                         return 2;
 				}
 				if(help==3){
-					if(a>0)
+                    if(r>0)
 						return currColor(r,g,b-1,k-1,1);
 					else if(a==0&&g>0)
 						return currColor(r,g,b-1,k-1,2);
