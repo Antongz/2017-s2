@@ -22,54 +22,95 @@
 using namespace std;
 
 class AlternateColors{
-
-
-
 	public:
-		string getColor(long r,long g,long b,long k){
+        string getColor(long r,long g,long b,long k){
 
-			int color = currColor(r,g,b,k,1);
-			if(color==1)
-				return "RED";
-			if(color==2)
-				return "GREEN";
-			if(color==3)
-				return "BLUE";
+            int color = currColor(r,g,b,k,0);
+            if(color==1)
+                return "RED";
+            if(color==2)
+                return "GREEN";
+            if(color==3)
+                return "BLUE";
 		}
 
 		int currColor(long r,long g,long b,long k,int help){
-			if(k==1)
-				return help;
-			else{
-				if(help==1){
-					if(g>0)
-						return currColor(r-1,g,b,k-1,2);
-					else if(g==0&&b>0)
-						return currColor(r-1,g,b,k-1,3);
-					else
-                        return 1;
-						
-				}
-				if(help==2){
-					if(b>0)
-						return currColor(r,g-1,b,k-1,3);
-                    else if(b==0&&r>0)
-						return currColor(r,g-1,b,k-1,1);
-					else
-                        return 2;
-				}
-				if(help==3){
-                    if(r>0)
-						return currColor(r,g,b-1,k-1,1);
-                    else if(r==0&&g>0)
-						return currColor(r,g,b-1,k-1,2);
-					else
-                        return 3;
-				}
-							
-			}
+            int min = 0;
+            if(r<g&&r<b&&r!=0){
+                min = r;
+                help = 1;
+            }
+            if(g<b&&g<r&&g!=0){
+                min = g;
+                help = 2;
+            }
 
-		}
+            if(b<r&&b<g&&b!=0){
+                min = b;
+                help = 3;
+            }
+
+            if(k<=3*min){
+                if(k%3==1)
+                    return 1;
+                if(k%3==2)
+                    return 2;
+                if(k%3==0)
+                    return 3;
+            }else{
+                if(r==min)
+                    return currColor2(g-min,b-min,k-min,help);
+                if(g==min)
+                    return currColor2(r-min,b-min,k-min,help);
+                if(b==min)
+                    return currColor2(r-min,g-min,k-min,help);
+            }
+        }
+        int currColor2(long a,long b,long k,int help){
+            long min = 0;
+            if(a<b){
+                min = a;
+            }else{
+                min = b;
+            }
+
+            if(k<=2*min){
+                if(k%2==1){
+                    if(help==1)
+                        return 2;
+                    if(help==2)
+                        return 3;
+                    if(help==3)
+                        return 1;
+                }else{
+                    if(help==1)
+                        return 3;
+                    if(help==2)
+                        return 1;
+                    if(help==3)
+                        return 2;
+                }
+            }else{
+                if(help==1){
+                    if(a<b)
+                        return 3;
+                    else
+                        return 2;
+                }
+                if(help==2){
+                    if(a<b)
+                        return 3;
+                    else
+                        return 1;
+                }
+                if(help==3){
+                    if(a<b)
+                        return 2;
+                    else
+                        return 1;
+                }
+            }
+        }
 
 
 };
