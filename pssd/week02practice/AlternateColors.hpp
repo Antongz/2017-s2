@@ -58,12 +58,27 @@ class AlternateColors{
                 if(k%3==0)
                     return 3;
             }else{
-                if(r==min)
+                if(r==min){
+                    if(g-min==0)
+                        return 3;
+                    if(b-min==0)
+                        return 2;
                     return currColor2(g-min,b-min,k-min,help);
-                if(g==min)
+                }
+                if(g==min){
+                    if(r-min==0)
+                        return 3;
+                    if(b-min==0)
+                        return 1;
                     return currColor2(r-min,b-min,k-min,help);
-                if(b==min)
+                }
+                if(b==min){
+                    if(r-min==0)
+                        return 2;
+                    if(g-min==0)
+                        return 1;
                     return currColor2(r-min,g-min,k-min,help);
+                }
             }
         }
         int currColor2(long a,long b,long k,int help){
