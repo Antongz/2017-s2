@@ -34,18 +34,18 @@ class AlternateColors{
                 return "BLUE";
 		}
 
-		int currColor(long r,long g,long b,long k,int help){
+        int currColor(long r,long g,long b,long k,int help){
             int min = 0;
-            if(r<g&&r<b&&r!=0){
+            if(r<=g&&r<=b){
                 min = r;
                 help = 1;
             }
-            if(g<b&&g<r&&g!=0){
+            if(g<=b&&g<=r){
                 min = g;
                 help = 2;
             }
 
-            if(b<r&&b<g&&b!=0){
+            if(b<=r&&b<=g){
                 min = b;
                 help = 3;
             }
