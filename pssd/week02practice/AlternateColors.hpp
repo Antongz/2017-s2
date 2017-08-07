@@ -22,7 +22,7 @@
 using namespace std;
 
 class AlternateColors{
-	public:
+    public:
         string getColor(long r,long g,long b,long k){
 
             int color = currColor(r,g,b,k,0);
@@ -32,7 +32,7 @@ class AlternateColors{
                 return "GREEN";
             if(color==3)
                 return "BLUE";
-		}
+        }
 
         int currColor(long r,long g,long b,long k,int help){
             int min = 0;
@@ -59,25 +59,25 @@ class AlternateColors{
                     return 3;
             }else{
                 if(r==min){
-                    if(g-min==0)
+                    if(g-min==0){
                         return 3;
-                    if(b-min==0)
+                    }if(b-min==0){
                         return 2;
-                    return currColor2(g-min,b-min,k-min,help);
+                    }return currColor2(g-min,b-min,k-min,help);
                 }
                 if(g==min){
-                    if(r-min==0)
+                    if(r-min==0){
                         return 3;
-                    if(b-min==0)
+                    }if(b-min==0){
                         return 1;
-                    return currColor2(r-min,b-min,k-min,help);
+                    }return currColor2(r-min,b-min,k-min,help);
                 }
                 if(b==min){
-                    if(r-min==0)
+                    if(r-min==0){
                         return 2;
-                    if(g-min==0)
+                    }if(g-min==0){
                         return 1;
-                    return currColor2(r-min,g-min,k-min,help);
+                    }return currColor2(r-min,g-min,k-min,help);
                 }
             }
         }
@@ -94,14 +94,14 @@ class AlternateColors{
                     if(help==1)
                         return 2;
                     if(help==2)
-                        return 3;
+                        return 1;
                     if(help==3)
                         return 1;
                 }else{
                     if(help==1)
                         return 3;
                     if(help==2)
-                        return 1;
+                        return 3;
                     if(help==3)
                         return 2;
                 }
@@ -129,3 +129,4 @@ class AlternateColors{
 
 
 };
+
