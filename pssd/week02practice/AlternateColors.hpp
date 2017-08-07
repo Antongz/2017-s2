@@ -94,14 +94,14 @@ class AlternateColors{
                     if(help==1)
                         return 2;
                     if(help==2)
-                        return 3;
+                        return 1;
                     if(help==3)
                         return 1;
                 }else{
                     if(help==1)
                         return 3;
                     if(help==2)
-                        return 1;
+                        return 3;
                     if(help==3)
                         return 2;
                 }
