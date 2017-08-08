@@ -59,14 +59,14 @@ class ChristmasTree{
                 if(layer%3==0){
                 //this could have 3! choices
                     if(red>=layer||green>=layer||blue>=layer)
-                        return count(red-layer,green,blue,layer--)+count(red,green-layer,blue,layer--)+count(red,green,blue--,layer--);
+                        return count(red-layer,green,blue,layer--)+count(red,green-layer,blue,layer--)+count(red,green,blue-layer,layer--);
                     
                     return count(red-layer/3,green-layer/3,blue-layer/3,layer--);
                 }
                 if(layer%3==1||layer%3==2){
                     if(layer%2==0)
                         return count(red-layer/2,green-layer/2,blue,layer--)+count(red-layer/2,green,blue-layer/2,layer--)+count(red,green-layer/2,blue-layer/2,layer--);
-                   return count(redlayer,green,blue,layer--)+count(red,green-layer,blue,layer--)+count)red,green,blue--,layer--);
+                   return count(red-layer,green,blue,layer--)+count(red,green-layer,blue,layer--)+count(red,green,blue-layer,layer--);
 
                 }	
 			}
