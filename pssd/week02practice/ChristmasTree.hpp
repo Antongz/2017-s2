@@ -38,9 +38,6 @@ class ChristmasTree{
 		}
 
 		long count(int red,int green,int blue,int layer){
-            int redR = red;
-			int greenR = green;
-			int blueR = blue;
             long res = 0;
 			
 			if(red+green+blue<layer||red<0||green<0||blue<0)
@@ -62,10 +59,11 @@ class ChristmasTree{
                 //this could have 3! choices
                         return count(red-layer,green,blue,layer--)+count(red,green-layer,blue,layer--)+count(red,green,blue-layer,layer--)+ count(red-layer/3,green-layer/3,blue-layer/3,layer--);
                 }
-                if(layer%3==1||layer%3==2){
-                    if(layer%2==0)
-                        return count(red-layer/2,green-layer/2,blue,layer--)+count(red-layer/2,green,blue-layer/2,layer--)+count(red,green-layer/2,blue-layer/2,layer--)+count(red-layer,green,blue,layer--)+count(red,green-layer,blue,layer--)+count(red,green,blue-layer,layer--);
-                }	
+                if(layer%2==0){
+                        return count(red-layer/2,green-layer/2,blue,layer--)+count(red-layer/2,green,blue-layer/2,layer--)+count(red,green-layer/2,blue-layer/2,layer--);
+                }
+                return count(red-layer,green,blue,layer--)+count(red,green-layer,blue,layer--)+count(red,green,blue-layer,layer--);
+
 			}
 
 		}
