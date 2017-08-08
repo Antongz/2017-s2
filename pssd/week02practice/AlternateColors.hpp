@@ -63,21 +63,21 @@ class AlternateColors{
                         return 3;
                     }if(b-min==0){
                         return 2;
-                    }return currColor2(g-min,b-min,k-3*min,help);
+                    }return currColor2(g-min,b-min,k-3*min-1,help);
                 }
                 if(g==min){
                     if(r-min==0){
                         return 3;
                     }if(b-min==0){
                         return 1;
-                    }return currColor2(r-min,b-min,k-3*min-1,help);
+                    }return currColor2(r-min,b-min,k-3*min-2,help);
                 }
                 if(b==min){
                     if(r-min==0){
                         return 2;
                     }if(g-min==0){
                         return 1;
-                    }return currColor2(r-min,g-min,k-3*min-2,help);
+                    }return currColor2(r-min,g-min,k-3*min,help);
                 }
             }
         }
