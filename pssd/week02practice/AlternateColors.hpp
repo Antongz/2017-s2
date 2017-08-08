@@ -63,14 +63,14 @@ class AlternateColors{
                         return 3;
                     }if(b-min==0){
                         return 2;
-                    }return currColor2(g-min,b-min,k-3*min,help);
+                    }return currColor2(g-min,b-min,k-3*min-1,help);
                 }
                 if(g==min){
                     if(r-min==0){
                         return 3;
                     }if(b-min==0){
                         return 1;
-                    }return currColor2(r-min,b-min,k-3*min,help);
+                    }return currColor2(r-min,b-min,k-3*min-2,help);
                 }
                 if(b==min){
                     if(r-min==0){
@@ -94,14 +94,14 @@ class AlternateColors{
                     if(help==1)
                         return 2;
                     if(help==2)
-                        return 1;
+                        return 3;
                     if(help==3)
                         return 1;
                 }else{
                     if(help==1)
                         return 3;
                     if(help==2)
-                        return 3;
+                        return 1;
                     if(help==3)
                         return 2;
                 }
