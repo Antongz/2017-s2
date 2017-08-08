@@ -107,22 +107,25 @@ class AlternateColors{
                 }
             }else{
                 if(help==1){
-                    if(a<b)
+                    if(a<b){
                         return 3;
-                    else
+                    }else{
                         return 2;
+                    }
                 }
                 if(help==2){
-                    if(a<b)
+                    if(a<b){
                         return 3;
-                    else
+                    }else{
                         return 1;
+                    }
                 }
                 if(help==3){
-                    if(a<b)
+                    if(a<b){
                         return 2;
-                    else
+                    }else{
                         return 1;
+                    }
                 }
             }
         }
