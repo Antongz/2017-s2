@@ -66,7 +66,7 @@ class AlternateColors{
                         return 3;
                     }if(b-min==0){
                         return 2;
-                    }return currColor2(g-min,b-min,k-3*(min-1)-1,help);
+                    }return currColor2(g-min+1,b-min+1,k-3*(min-1)-1,help);
                 }
                 if(g==min){
                     if(r-min==0){
