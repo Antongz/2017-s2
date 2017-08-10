@@ -21,7 +21,7 @@
 
 using namespace std;
 
-class AlternateColors{
+cclass AlternateColors{
     public:
         string getColor(long r,long g,long b,long k){
 
@@ -50,7 +50,7 @@ class AlternateColors{
                 help = 3;
             }
 
-            if(k<=3*min+help){
+            if(k<=3*(min-1)+help){
                 if(k%3==1){
                     return 1;
                 }
