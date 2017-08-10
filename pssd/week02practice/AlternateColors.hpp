@@ -35,7 +35,7 @@ class AlternateColors{
         }
 
         int currColor(long r,long g,long b,long k,int help){
-            int min = 0;
+            long min = 0;
             if(r<=g&&r<=b){
                 min = r;
                 help = 1;
