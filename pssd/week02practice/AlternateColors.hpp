@@ -21,7 +21,7 @@
 
 using namespace std;
 
-cclass AlternateColors{
+class AlternateColors{
     public:
         string getColor(long r,long g,long b,long k){
 
