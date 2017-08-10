@@ -50,34 +50,37 @@ class AlternateColors{
                 help = 3;
             }
 
-            if(k<=3*min){
-                if(k%3==1)
+            if(k<=3*min+help){
+                if(k%3==1){
                     return 1;
-                if(k%3==2)
+                }
+                if(k%3==2){
                     return 2;
-                if(k%3==0)
+                }
+                if(k%3==0){
                     return 3;
+                }
             }else{
                 if(r==min){
                     if(g-min==0){
                         return 3;
                     }if(b-min==0){
                         return 2;
-                    }return currColor2(g-min,b-min,k-3*min-1,help);
+                    }return currColor2(g-min,b-min,k-3*(min-1)-1,help);
                 }
                 if(g==min){
                     if(r-min==0){
                         return 3;
                     }if(b-min==0){
                         return 1;
-                    }return currColor2(r-min,b-min,k-3*min-2,help);
+                    }return currColor2(b-min,r-min,k-3*(min-1)-2,help);
                 }
                 if(b==min){
                     if(r-min==0){
                         return 2;
                     }if(g-min==0){
                         return 1;
-                    }return currColor2(r-min,g-min,k-3*min,help);
+                    }return currColor2(r-min,g-min,k-3*(min-1)-3,help);
                 }
             }
         }
@@ -88,7 +91,6 @@ class AlternateColors{
             }else{
                 min = b;
             }
-
             if(k<=2*min){
                 if(k%2==1){
                     if(help==1)
@@ -115,9 +117,9 @@ class AlternateColors{
                 }
                 if(help==2){
                     if(a<b){
-                        return 3;
-                    }else{
                         return 1;
+                    }else{
+                        return 3;
                     }
                 }
                 if(help==3){
@@ -132,4 +134,3 @@ class AlternateColors{
 
 
 };
-
