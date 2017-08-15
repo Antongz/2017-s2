@@ -22,10 +22,10 @@ class Teleport{
 		vector<int> resY;
 		int xPob = 0;	int yPob = 0;
 		for(int i=0;i<test.size();i++){
-			stX.push_back(stoi(strtok(test[i],space)));
-			stY.push_back(stoi(strtok(NULL,space)));
-			resX.push_back(stoi(strtok(NULL,space)));
-			resY.push_back(stoi(strtok(NULL,space)));
+			//stX.push_back(stoi(strtok(test[i],space)));
+			//stY.push_back(stoi(strtok(NULL,space)));
+			//resX.push_back(stoi(strtok(NULL,space)));
+			//resY.push_back(stoi(strtok(NULL,space)));
 		}
 
 		int chose = 0;
