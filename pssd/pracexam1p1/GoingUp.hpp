@@ -31,12 +31,4 @@ class GoingUp{
 };
 
 
-int main(){
-	GoingUp test;
-	int a,b,c;
-	cin>>a;
-	cin>>b;
-	cin>>c;
-	cout << test.minRemove(a,b,c) << endl;
 
-}
