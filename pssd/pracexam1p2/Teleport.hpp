@@ -33,7 +33,8 @@ class Teleport{
 				resX.push_back(stoi(c));
 				resY.push_back(stoi(d));
 			}
-		bool check = false;}
+		}
+		bool check = false;
 		int minDiff = Xdiff+Ydiff;
 		int count = 0;
 		int Begin = 0;
