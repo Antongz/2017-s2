@@ -6,13 +6,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <algorithm>
+#include <ctype.h>
+
 
 using namespace std;
 
 class Teleport{
 
 	public:
-	int bestPath(int xMe,int yMe,int xHome,int yHome, vector<String> test){
+	int bestPath(int xMe,int yMe,int xHome,int yHome, vector<string> test){
 		int Xdiff = abs(xHome-xMe);
 		int Ydiff = abs(yHome-yMe);
 		const char space [2] = " ";
