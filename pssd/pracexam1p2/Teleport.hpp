@@ -10,6 +10,8 @@
 using namespace std;
 
 class Teleport{
+
+	public:
 	int bestPath(int xMe,int yMe,int xHome,int yHome,vector<string> test){
 		int Xdiff = abs(xHome-xMe);
 		int Ydiff = abs(yHome-yMe);
