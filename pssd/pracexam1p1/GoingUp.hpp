@@ -19,11 +19,11 @@ class GoingUp{
 
 			else{
 				if(b<=a)
-					return a-b-1+minRemove(a-b-1,b,c);
+					return a-b+1+minRemove(a-b-1,b,c);
 				if(c<=b)
-					return b-c-1+minRemove(a,b-c-1,c);
+					return b-c+1+minRemove(a,b-c-1,c);
 				if(c<=a)
-					return a-c-1+minRemove(a-c-1,b,c); 
+					return a-c+1+minRemove(a-c-1,b,c); 
 			}
 		}
 		
