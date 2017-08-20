@@ -59,6 +59,9 @@ class SimpleCompressor{
                         }
                         for(int i=0;i<n;i++)
                             res += inc;
+
+						if(itr+1 != data.length())
+							itr++;
                     }
                 }else{
                     itr++;
