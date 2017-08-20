@@ -63,7 +63,7 @@ class Arrows{
                         tempM = temp;
                 }
             }
-			if(test&&temp==0)
+			if(test==true&&tempM==0)
 				return 1;
             if(tempM==0)
                 return -1;
