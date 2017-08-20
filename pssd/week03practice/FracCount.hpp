@@ -31,8 +31,10 @@ class FracCount{
             if(numerator==1&&denominator==2)
                 return 1;
             if(numerator==1)
-                return 1+position(denominator-2,denominator--);
+                return 1+position(denominator-2,denominator-1);
             else{
+				if(denominator-numerator==1)
+					return 1+position(numerator-1,denominator);
                 if(checkGCD(numerator,denominator))
                     return position(numerator-1,denominator);
                 else
