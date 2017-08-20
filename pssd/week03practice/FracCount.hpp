@@ -35,7 +35,7 @@ public:
                     break;
             }
             numerator--;
-            if(numerator==1){
+            if(numerator==0){
                 denominator--;
                 numerator = denominator - 1;
             }
