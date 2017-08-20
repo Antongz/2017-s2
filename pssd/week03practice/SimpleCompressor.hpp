@@ -28,64 +28,46 @@ using namespace std;
 class SimpleCompressor{
     int n = 0;
 
-	public:
-		string uncompress(string data){
-			string res="";
+    public:
+        string uncompress(string data){
+            string res="";
             string ins = "";
             string inc = "";
-			bool check=true;
-            bool checkS = false;
-			int itr=0;
-			int n=0;
-            int numBrac=0;
+            bool check=true;
+            int itr=0;
+            int n=1;
             int temp=0;
-			while(check){
-				res+=data[itr];
-				if(data[itr]=="["){
-                    numBrac++;
-                    checkS = true;
-                    while(checkS==true){
-                        itr++;  //it should be an int
-                        ins = data[itr];
-                        temp = stoi(data[itr]);
-                        n = temp;
-                        itr++;  //could be int or bracket
-                        if(data[itr]=="["){
-                            while(data[itr]!="]"){
-                                if(data[itr]=="["){
-                                    itr++;
-                                    ins = data[itr];
-                                    temp = stoi(data[itr]);
-                                    n *= temp;
-                                }else{
-                                    while(data[itr]!="]"){
-                                        inc += data[itr];
-                                    }
-                                }
-                                itr++;
-                            }
-                            //data[itr] should be "]"
-                            while(data[itr]=="]"){
-                                numBrac--;
-                                itr++;
-                            }
-                            for(int i=0;i<n;i++)
-                                res += inc;
+            while(check){
+                if(data[itr]!='['&&data[itr]!=']')
+                    res+=data[itr];
+                if(data[itr]=='['){
+                    while(data[itr]!=']'){
+                        if(data[itr]=='['){
+                            itr++;
+                            ins = data[itr];
+                            temp = stoi(ins);
+                            n *= temp;
+                        }else{
+                            inc += data[itr];
                         }
-                        if(numBrac==0)
-                            checkS = false;
+                        itr++;
                     }
-				} 
-                if(itr==data.length()){
-                    check=false;
-                    break;
+                    //data[itr] should be "]"
+                    if(data[itr]==']'){
+                        while(data[itr]==']'){
+                           itr++;
+                        }
+                        for(int i=0;i<n;i++)
+                            res += inc;
+                    }
+                }else{
+                    itr++;
                 }
-				itr++;
-				if(itr==data.length())
-					check=false;
-			}			
+                if(itr>=data.length())
+                    check=false;
+            }
 
             return res;
-		}
+        }
 
 };

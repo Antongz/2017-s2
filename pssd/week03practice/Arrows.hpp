@@ -23,47 +23,48 @@ using namespace std;
 
 class Arrows{
 
-	public:
-		int longestArrow(string s){
-			int res = 0;
-			int itr = 0;
-			int tempM = 0;
-			string check = "";
-			for(int i=0;i<s.length();i++){
-				itr = i;
-				if(s[i]=='<'){
-					int temp = 1;
-					check = s[i+1];
-					if(check!=s[i]&&check!='>'){
-						temp++;
-						itr++;
-						while(s[itr]==check&&itr<s.length()){
-							temp++;
-							itr++;
-						}
-					}
-					if(temp>tempM)
-						tempM = temp;
-				}
-				if(s[i]=='>'){
-					int temp = 1;
-					check = s[i+1];
-					if(check!=s[i]&&check!='<'){
-						temp++;
-						itr--;
-						while(s[itr]==check&&itr>=0){
-							temp++;
-							itr--;
-						}
-					}
-					if(temp>tempM)
-						tempM = temp;
-				}
-			}
+    public:
+        int longestArrow(string s){
+            int res = 0;
+            int itr = 0;
+            int tempM = 0;
+            char check;
+            for(int i=0;i<s.length();i++){
+                itr = i;
+                if(s[i]=='<'){
+                    int temp = 0;
+                    check = s[i+1];
+                    if(check!=s[i]&&check!='>'){
+                        temp++;
+                        itr++;
+                        while(s[itr]==check&&itr<s.length()){
+                            temp++;
+                            itr++;
+                        }
+                    }
+                    if(temp>tempM)
+                        tempM = temp;
+                }
+                if(s[i]=='>'){
+                    int temp = 0;
+                    check = s[i-1];
+                    if(check!=s[i]&&check!='<'){
+                        temp++;
+                        itr--;
+                        while(s[itr]==check&&itr>=0){
+                            temp++;
+                            itr--;
+                        }
+                    }
+                    if(temp>tempM)
+                        tempM = temp;
+                }
+            }
+            if(tempM==0)
+                return -1;
 
-
-			return tempM;
-		}
+            return tempM;
+        }
 
 
 };

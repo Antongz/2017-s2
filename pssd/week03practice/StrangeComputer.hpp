@@ -26,23 +26,27 @@ using namespace std;
 
 class StrangeComputer{
 
-	public:
-		int setMemory(string mem){
-			int res = 0;
-			int index = 0;
-			char checkP;
-			while(index<mem.length()){
-				if(index>0){
-					if(mem[index]!=checkP)
-						res++;
-				}								
+    public:
+        int setMemory(string mem){
+            int res = 0;
+            int index = 0;
+            char checkP;
+            while(index<mem.length()){
+                if(index==0){
+                    if(mem[index]=='1')
+                        res++;
+                }
+                if(index>0){
+                    if(mem[index]!=checkP)
+                        res++;
+                }
 
-				checkP = mem[index];
-				index++;
-			}
+                checkP = mem[index];
+                index++;
+            }
 
-			return res;
-		}
+            return res;
+        }
 
 
 };
