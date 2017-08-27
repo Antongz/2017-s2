@@ -31,6 +31,8 @@ class TimeTravellingCellar{
             int itrm1 = 0;
             int itrm2 = 0;
             int min = decay[0];
+            int min2 = 1000000;
+            int max2 = 0;
             int max = profit[0];
             int size = profit.size();
             //find max 2 values
@@ -39,6 +41,12 @@ class TimeTravellingCellar{
                     itr2 = itr1;
                     max = profit[i];
                     itr1 = i;
+                }else{
+                    if(profit[i]>max2){
+                        itr2 = i;
+                        max2 = profit[i];
+                    }
+
                 }
             }
             //find min 2 values
@@ -47,7 +55,13 @@ class TimeTravellingCellar{
                     itrm2 = itrm1;
                     min = decay[i];
                     itrm1 = i;
+                }else{
+                    if(profit[i]<min2){
+                        itrm2 = i;
+                        min2 = profit[i];
+                    }
                 }
+
             }
             int res1 = profit[itr1]-decay[itrm2];
             int res2 = profit[itr2]-decay[itrm1];
