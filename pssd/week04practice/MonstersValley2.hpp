@@ -30,7 +30,7 @@ class MonstersValley2{
             return checkMin(0,0,dread,price);
         }
 
-        int checkMin(int itr,int curD,vector<int> dread,vector<int> price){
+        int checkMin(int itr,long curD,vector<int> dread,vector<int> price){
             if(itr>=dread.size())
                 return 0;
             if(curD<dread[itr])
