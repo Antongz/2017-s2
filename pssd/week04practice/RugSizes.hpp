@@ -17,6 +17,7 @@
  */
 
 #include <iostream>
+#include <math.h>
 
 using namespace std;
 
@@ -27,7 +28,7 @@ class RugSizes{
             int res = 0;
             int itr = 1;
 
-            while(itr<=area/2){
+            while(itr<=sqrt(area)){
                 if(area%itr==0){
                     if(itr%2==0&&(area/itr)%2==0&&itr!=(area/itr))
                         ;
