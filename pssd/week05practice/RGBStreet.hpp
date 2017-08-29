@@ -34,7 +34,7 @@ class RGBStreet{
     public:
         int estimateCost(vector<string> houses){
             vector<vector<int>> house;
-
+            table.clear();
             for(int i=0;i<(short)houses.size();i++){
                 vector<int> tmp;
                 char *temp = new char [houses[i].length()+1];
