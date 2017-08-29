@@ -23,17 +23,19 @@
 #include <string.h>
 #include <ctype.h>
 #include <algorithm>
+#include <map>
 
 using namespace std;
 
 class RGBStreet{
     const char space[2] = " ";
+    map<string,int> table;
 
     public:
         int estimateCost(vector<string> houses){
             vector<vector<int>> house;
 
-            for(int i=0;i<houses.size();i++){
+            for(int i=0;i<(short)houses.size();i++){
                 vector<int> tmp;
                 char *temp = new char [houses[i].length()+1];
                 strcpy(temp,houses[i].c_str());
@@ -49,19 +51,28 @@ class RGBStreet{
 
 
         int estimate(int help,int itr,vector<vector<int>> tmp){
-            if(itr==tmp.size())
+            if(itr==(short)tmp.size()){
                 return 0;
-            else{
-                if(help==0)
-                    return min(tmp[itr][1]+estimate(1,itr+1,tmp),tmp[itr][2]+estimate(2,itr+1,tmp));
-                else if(help==1)
-                    return min(tmp[itr][0]+estimate(0,itr+1,tmp),tmp[itr][2]+estimate(2,itr+1,tmp));
-                else if(help==2)
-                    return min(tmp[itr][1]+estimate(1,itr+1,tmp),tmp[itr][0]+estimate(0,itr+1,tmp));
-                else
-                    return min(min(tmp[itr][0]+estimate(0,itr+1,tmp),tmp[itr][1]+estimate(1,itr+1,tmp)),tmp[itr][2]+estimate(2,itr+1,tmp));
-
             }
+            string temp = to_string(itr) + ',' + to_string(help);
+            if (table.find(temp) != table.end())
+            {
+                return table.at(temp);
+            }
+            if(help==0){
+                table[temp] = min(tmp[itr][1]+estimate(1,itr+1,tmp),tmp[itr][2]+estimate(2,itr+1,tmp));
+                return table.at(temp);
+            }else if(help==1){
+                table[temp] = min(tmp[itr][0]+estimate(0,itr+1,tmp),tmp[itr][2]+estimate(2,itr+1,tmp));
+                return table.at(temp);
+            }else if(help==2){
+                table[temp] = min(tmp[itr][1]+estimate(1,itr+1,tmp),tmp[itr][0]+estimate(0,itr+1,tmp));
+                return table.at(temp);
+            }else{
+                return min(min(tmp[itr][0]+estimate(0,itr+1,tmp),tmp[itr][1]+estimate(1,itr+1,tmp)),tmp[itr][2]+estimate(2,itr+1,tmp));
+            }
+
         }
+
 
 };
