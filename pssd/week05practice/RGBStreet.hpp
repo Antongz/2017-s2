@@ -59,7 +59,7 @@ class RGBStreet{
                 else if(help==2)
                     return min(tmp[itr][1]+estimate(1,itr+1,tmp),tmp[itr][0]+estimate(0,itr+1,tmp));
                 else
-                    return min(min(tmp[itr][0]+estimate(0,itr+1,tmp),tmp[itr][2]+estimate(2,itr+1,tmp)),tmp[itr][2]+estimate(2,itr+1,tmp));
+                    return min(min(tmp[itr][0]+estimate(0,itr+1,tmp),tmp[itr][1]+estimate(1,itr+1,tmp)),tmp[itr][2]+estimate(2,itr+1,tmp));
 
             }
         }
