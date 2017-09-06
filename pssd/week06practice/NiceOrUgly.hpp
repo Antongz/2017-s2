@@ -25,33 +25,34 @@ using namespace std;
 
 class NiceOrUgly{
     public:
-        string describe(string s){
-            return check(s,0,0,0);
-        }
+    string describe(string s){
+        return check(s,0,0,0,0);
+    }
 
-        string check(string s,int itr,int vowels,int consonants){
-            if(vowels==3||consonants==5)
+    string check(string s,int itr,int vowels,int consonants,int question){
+        if(vowels==3||consonants==5)
+            return "UGLY";
+        if(itr==s.length())
+            return "NICE";
+        if(question==3)
+            return "42";
+        if(s[itr]=='?'){
+            string checkP = "";
+            string checkN = "";
+            checkP = check(s,itr+1,vowels+1,0,question+1);
+            checkN = check(s,itr+1,0,consonants+1,question+1);
+            if(checkP==checkN&&checkP=="UGLY")
                 return "UGLY";
-            if(itr==s.length())
-                return "NICE";
-            if(s[itr]=='?'){
-                string checkP = "";
-                string checkN = "";
-                checkP = check(s,itr+1,vowels+1,0);
-                checkN = check(s,itr+1,0,consonants+1);
-                if(checkP==checkN&&checkP=="UGLY")
-                    return "UGLY";
-                else if(checkP!=checkN)
-                    return "42";
-                else
-                    return "NICE";
-            }
-            else if(s[itr]=='A'||s[itr]=='E'||s[itr]=='I'||s[itr]=='O'||s[itr]=='U')
-                return check(s,itr+1,vowels+1,0);
+            else if(checkP!=checkN)
+                return "42";
             else
-                return check(s,itr+1,0,consonants+1);
-
+                return "NICE";
         }
+        else if(s[itr]=='A'||s[itr]=='E'||s[itr]=='I'||s[itr]=='O'||s[itr]=='U')
+            return check(s,itr+1,vowels+1,0,0);
+        else
+            return check(s,itr+1,0,consonants+1,0);
+    }
 
 
 };
