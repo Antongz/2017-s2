@@ -1,0 +1,29 @@
+#|a1691807 Yi-Ting, Hsieh |#
+;for question1-b
+
+;define mylist:(1 2 3 5 8 9 10)
+(define mylist (list 1 2 3 5 8 9 10))
+;define our square procedure, which will return the square of our input
+(define (square x) (* x x))
+;define our filter procedure
+(define (filter predicate mylist)
+  (cond ((null? mylist) (list))
+        ((predicate (car mylist))
+         (cons (car mylist)
+               (filter predicate (cdr mylist))))
+        (else (filter predicate (cdr mylist)))
+  )
+)
+;define our foldr procedure
+(define (foldr op z ls)
+  (if (null? ls)
+      z
+      (op (car ls) (foldr op z (cdr ls)))
+  )
+)
+
+#|define procedure called q1b, which will take one list as argument,
+it will sum up all the square of even elements. |#
+(define (q1b mylist)
+  (foldr + 0 (map square (filter even? mylist)))
+)

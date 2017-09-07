@@ -1,0 +1,31 @@
+#|a1691807 Yi-Ting, Hsieh |#
+;for question1-a
+
+;define mylist:(1 2 3 5 8 9 10)
+(define mylist (list 1 2 3 5 8 9 10))
+;define our square procedure, which will return the square of our input
+(define (square x) (* x x))
+;define our sum procedures
+(define (sum x y) (+ x y))
+#|define our filter procedure. Basically if-even? will check whether
+ the input is even elemnt or not. 0: true, 1:false   |#
+(define (if-even? x)
+  (cond ((< x 2) 0)
+        ((= x 2) 1)
+        (else (if-even? (- x 2)))
+  )
+)
+
+#|define procedure called q1a, which will take one list as argument,
+it will sum up all the square of even elements. |#
+(define (q1a xs)
+  (if (= (length xs) 0)
+         0
+      (cond        
+        ((= 0 (if-even? (car xs)))
+         (q1a (cdr xs)))
+        ((= 1 (if-even? (car xs)))
+         (sum (square (car xs)) (q1a (cdr xs))))
+      )
+  )
+)

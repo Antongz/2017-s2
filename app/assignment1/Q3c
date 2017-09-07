@@ -1,0 +1,34 @@
+#|a1691807 Yi-Ting, Hsieh |#
+;for question3-c
+#|Given procedures for foldl, snoc and foldr |#
+(define (foldl op z ls)
+  (if (null? ls)
+      z
+      (foldl op (op z (car ls)) (cdr ls))
+  )
+)
+(define (foldr op z ls)
+  (if (null? ls)
+      z
+      (op (car ls) (foldr op z (cdr ls)))
+  )
+)
+(define (snoc x y) (cons y x))
+(define (rev ls) (foldl snoc '() ls))
+
+;define f procedure as list procedure
+(define f list)
+
+;define g procedure which takes two argument and append ls1 to ls2
+(define (g ls1 ls2)
+  (append ls2 ls1)
+)
+
+(define (rev1 ls) (foldr g '() (map f ls)))
+(define (rev2 ls) (foldl g '() (map f ls)))
+
+;the definition for enum-range
+(define (enum-range start finish)
+  (if (> start finish)
+      '()
+      (cons start (enum-range (+ 1 start) finish))))

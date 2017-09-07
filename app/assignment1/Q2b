@@ -1,0 +1,17 @@
+#|a1691807 Yi-Ting, Hsieh |#
+;for question2-b
+
+#|define procedure called interleave, which will take two arguments xs and ys,
+and it will returns a single list which is the interleaving of the two argument lists. |#
+(define (interleave xs ys)
+  (if (null? xs)
+      (if (null? ys)
+          (list)
+          ys
+      )
+      (if (null? ys)
+          xs
+          (cons (car xs) (cons (car ys) (interleave (cdr xs) (cdr ys))))
+      )
+  )
+)
