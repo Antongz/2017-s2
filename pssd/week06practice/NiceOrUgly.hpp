@@ -27,6 +27,7 @@ class NiceOrUgly{
 
     public:
     string describe(string s){
+        test = false;
         return check(s,0,0,0,0);
     }
 
@@ -77,6 +78,7 @@ class NiceOrUgly{
             }
             itr++;
         }
+        return "NICE";
     }
 
 
