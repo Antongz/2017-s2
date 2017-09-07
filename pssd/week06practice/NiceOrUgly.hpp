@@ -23,7 +23,6 @@
 
 using namespace std;
 class NiceOrUgly{
-    map<string,int> table;
     bool test = false;
 
     public:
