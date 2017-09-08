@@ -54,10 +54,12 @@ public:
                 if(vowels==2){
                     res = "42";
                     vowels = 0;
+                    question = 0;
                     consonants = 1;
                     check = -1;
                 }else if(consonants==4){
                     check = 1;
+                    question = 0;
                     res = "42";
                     consonants = 0;
                     vowels = 1;
@@ -77,7 +79,4 @@ public:
             itr++;
         }
     }
-
-
-
 };
