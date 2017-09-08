@@ -44,10 +44,8 @@ class BlackAndWhiteSolitaire{
                         weven++;
                 }
             }
-            int res = 0;
-            if((bodd+weven==beven+wodd)&&bodd+beven!=0&&wodd+weven!=0)
+            if((weven+bodd==cardFront.length()||wodd+beven==cardFront.length())&&bodd+beven!=0&&wodd+weven!=0)
                 return 0;
-
             return (bodd+weven>beven+wodd)? beven+wodd:bodd+weven;
 
 
