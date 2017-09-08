@@ -62,8 +62,7 @@ public:
                     consonants = 0;
                     vowels = 1;
                 }else{
-                    //vowels++;
-                    //consonants++;
+                    check = 0;
                     question++;
                 }
             }else{
