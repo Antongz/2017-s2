@@ -63,7 +63,7 @@ class ForestGarbage{
                 }
             }
 
-            dij(curX,curY);
+            findBest(curX,curY);
             vector<int>res;
             res.push_back(d[finalX][finalY]/10000);
             res.push_back(d[finalX][finalY]%10000);
