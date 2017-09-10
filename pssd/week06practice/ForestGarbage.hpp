@@ -50,8 +50,8 @@ class ForestGarbage{
                 for(int j=0;j<m;j++){
                     if(forest[i][j]=='g'){
                         wei[i][j] = 10000;
-                    }else if((i+1<n&&forest[i+1][j]=='g')||(i-1>=0&&forest[i-1][j]=='g')||
-                            (j+1<m&&forest[i][j+1]=='g')||(j-1>=0&&forest[i][j-1]=='g')){
+                    }else if((forest[i][j]=='.')&&((i+1<n&&forest[i+1][j]=='g')||(i>0&&forest[i-1][j]=='g')||
+                                                   (j+1<m&&forest[i][j+1]=='g')||(j-1>0&&forest[i][j-1]=='g'))){
                         wei[i][j] = 1;
                     }else if(forest[i][j]=='F'){
                         finalX = i;
@@ -63,7 +63,7 @@ class ForestGarbage{
                 }
             }
 
-            findBest(curX,curY);
+            dij(curX,curY);
             vector<int>res;
             res.push_back(d[finalX][finalY]/10000);
             res.push_back(d[finalX][finalY]%10000);
