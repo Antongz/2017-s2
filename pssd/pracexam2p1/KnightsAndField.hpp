@@ -60,7 +60,7 @@ class KnightsAndField{
 			int check2 = m - sum2;
 
 
-			res = min(check1,check2);
+			res = max(check1,check2);
 			return res;
 		}
 
