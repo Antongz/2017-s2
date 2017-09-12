@@ -24,34 +24,43 @@ class KnightsAndField{
 			int m = place[0].length();
 			int checkM = min(n,m);
 			vector<int> count1;
+			vector<int> count2;
 
 			int count = 0;
-			if(checkM==n){
-				for(int i=0;i<n;i++){
-					count = 0;
-					for(int j=0;j<m;j++){
-						if(place[i][j]=='X')
-							count++;
-					}
-					count1.push_back(count);
+			
+			for(int i=0;i<n;i++){
+				count = 0;
+				for(int j=0;j<m;j++){
+					if(place[i][j]=='X')
+						count++;
 				}
-			}else{
-				for(int i=0;i<m;i++){
-					count = 0;
-					for(int j=0;j<n;j++){
-						if(place[j][i]=='X')
-							count++;
-					}
-					count1.push_back(count);
-				}
+				count1.push_back(count);
 			}
+		
+			for(int i=0;i<m;i++){
+				count = 0;
+				for(int j=0;j<n;j++){
+					if(place[j][i]=='X')
+						count++;
+				}
+				count2.push_back(count);
+			}
+			
 
-			int sum = 0;
+			int sum1 = 0;
+			int sum2 = 0;
 			for(int i=0;i<(short)count1.size();i++)
 				if(count1[i]!=0)
-					sum++;
+					sum1++;
+			for(int i=0;i<(short)count2.size();i++)
+				if(count2[i]!=0)
+					sum2++;
 
-			res = checkM - sum;
+			int check1 = n - sum1;
+			int check2 = m - sum2;
+
+
+			res = min(check1,check2);
 			return res;
 		}
 
