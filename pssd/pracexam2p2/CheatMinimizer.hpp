@@ -53,7 +53,7 @@ class CheatMinimizer{
 						if(temp2[i+1]>yourRating)
 							turns++;
 					}else
-						tmp.push_back(temp2[i],temp2[i+1]);
+						tmp.push_back(max(temp2[i],temp2[i+1]));
 
 				}
 
