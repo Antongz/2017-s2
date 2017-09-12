@@ -22,6 +22,7 @@ class KnightsAndField{
 			int res = 0;
 			int n = place.size();
 			int m = place[0].length();
+			vector<int> count1;
 
 			int count = 0;
 			for(int i=0;i<n;i++){
@@ -30,11 +31,14 @@ class KnightsAndField{
 					if(place[i][j]=='X')
 						count++;
 				}
-
-				if(count==0)
-					res++;
+				count1.push_back(count);
 			}
 
+			int sum = 0;
+			for(int i=0;i<(short)count1.size();i++)
+				sum += count1[i];
+
+			res = n - (int)count1.size();
 			return res;
 		}
 
