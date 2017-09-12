@@ -26,13 +26,24 @@ class KnightsAndField{
 			vector<int> count1;
 
 			int count = 0;
-			for(int i=0;i<n;i++){
-				count = 0;
-				for(int j=0;j<m;j++){
-					if(place[i][j]=='X')
-						count++;
+			if(checkM==n){
+				for(int i=0;i<n;i++){
+					count = 0;
+					for(int j=0;j<m;j++){
+						if(place[i][j]=='X')
+							count++;
+					}
+					count1.push_back(count);
 				}
-				count1.push_back(count);
+			}else{
+				for(int i=0;i<m;i++){
+					count = 0;
+					for(int j=0;j<n;j++){
+						if(place[j][i]=='X')
+							count++;
+					}
+					count1.push_back(count);
+				}
 			}
 
 			int sum = 0;
