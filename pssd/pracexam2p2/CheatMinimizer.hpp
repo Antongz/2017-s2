@@ -28,6 +28,7 @@ class CheatMinimizer{
 					res = results[i];
 			}
 
+
 			return res;
 		}
 
@@ -61,15 +62,9 @@ class CheatMinimizer{
 				count = count / 2;
 			}
 
-
-
-
 			return turns;
 		}
 
 
 
 };
-
-
-=
