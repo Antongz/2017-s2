@@ -22,6 +22,7 @@ class KnightsAndField{
 			int res = 0;
 			int n = place.size();
 			int m = place[0].length();
+			int checkM = min(n,m);
 			vector<int> count1;
 
 			int count = 0;
@@ -39,7 +40,7 @@ class KnightsAndField{
 				if(count1[i]!=0)
 					sum++;
 
-			res = n - sum;
+			res = checkM - sum;
 			return res;
 		}
 
