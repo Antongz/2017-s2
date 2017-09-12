@@ -42,27 +42,46 @@ class CheatMinimizer{
 			}
 
 			int count = temp2.size();
-			vector<bool> checkwin;
+			//cout << count << endl;
+			vector<int> temp3 = temp2;;
 
 			while(count!=1){
 				vector<int> tmp;
-				for(int i=0;i<temp2.size();i=i+2){
-					if(temp2[i]==yourRating||temp2[i+1]==yourRating){
+				//for(int i=0;i<temp3.size();i++)
+				//	cout << temp3[i] << " ";
+				//cout << endl;
+				for(int i=0;i<temp3.size();i=i+2){
+					if(temp3[i]==yourRating||temp3[i+1]==yourRating){
 						tmp.push_back(yourRating);
-						if(temp2[i]>yourRating)
+						if(temp3[i]>yourRating)
 							turns++;
-						if(temp2[i+1]>yourRating)
+						if(temp3[i+1]>yourRating)
 							turns++;
 					}else
-						tmp.push_back(max(temp2[i],temp2[i+1]));
+						tmp.push_back(max(temp3[i],temp3[i+1]));
 
 				}
 
-				vector<int> temp2 = tmp;
+				temp3 = help(tmp);
+				//for(int i=0;i<temp2.size();i++)
+				//	cout << temp2[i] << " ";
+				//cout << endl;
+
 				count = count / 2;
 			}
 
 			return turns;
+		}
+
+
+			vector<int> help(vector<int>ratings){
+				vector<int> tmp;
+				for(int i=0;i<ratings.size();i++){
+					tmp.push_back(ratings[i]);
+				}
+
+				return tmp;
+
 		}
 
 
