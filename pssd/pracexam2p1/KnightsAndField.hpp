@@ -36,9 +36,10 @@ class KnightsAndField{
 
 			int sum = 0;
 			for(int i=0;i<(short)count1.size();i++)
-				sum += count1[i];
+				if(count1[i]!=0)
+					sum++;
 
-			res = n - (int)count1.size();
+			res = n - sum;
 			return res;
 		}
 
