@@ -27,7 +27,7 @@ class KnightsAndField{
 			for(int i=0;i<n;i++){
 				count = 0;
 				for(int j=0;j<m;j++){
-					if(playce[i][j]=='X')
+					if(place[i][j]=='X')
 						count++;
 				}
 
