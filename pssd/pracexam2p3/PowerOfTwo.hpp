@@ -23,8 +23,7 @@ class PowerOfTwo{
 
 		long help(long remain,long valueN){
 			long res = 0;
-			while(remain!=)
-
+			
 		}
 		
 
