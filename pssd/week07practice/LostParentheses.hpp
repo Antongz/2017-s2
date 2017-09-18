@@ -27,7 +27,6 @@
 
 using namespace std;
 typedef pair<int,int> ii;
-
 class LostParentheses{
 
 public:
@@ -35,10 +34,8 @@ public:
         vector<int> num;
         int itr = 0;
         int tempN = 0;
-        int tempV = 0;
-        int tempPlus = 0;
         bool checkMinus = false;
-        bool checkOp = false;
+        string tempOP = "";
         while(itr<(int)e.length()){
             if(isdigit(e[itr])){
                 int temp = 0;
@@ -69,15 +66,17 @@ public:
             }else{
                 switch(e[itr]){
                     case '+':
+                        tempOP = "+";
                         if(checkMinus)
                             num.push_back(tempN*(-1));
                         else
                             num.push_back(tempN);
                         break;
                     case '-':
+                        tempOP = "-";
                         if(checkMinus){
-                            checkMinus = false;
-                            num.push_back(tempN);
+                            //checkMinus = false;
+                            num.push_back(tempN*(-1));
                         }else{
                             checkMinus = true;
                             num.push_back(tempN);
