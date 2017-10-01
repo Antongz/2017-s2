@@ -43,12 +43,12 @@ public:
     void setup(string input){
         string temp = "";
         if(isdigit(input[1])&&input[0]=='A'){
-            for(int i=1;i<input.length();i++)
+            for(int i=1;i<(int)input.length();i++)
                 temp += input[i];
             int value = stoi(temp);
             root = insertNode(value,root);
         }else if(isdigit(input[1])&&input[0]=='D'){
-            for(int i=1;i<input.length();i++)
+            for(int i=1;i<(int)input.length();i++)
                 temp += input[i];
             int value = stoi(temp);
             root = deleteNode(value,root);
@@ -259,7 +259,7 @@ int main(){
         cin >> temp;
         input.push_back(temp);
     }
-    for(int i=0;i<input.size()-1;i++){
+    for(int i=0;i<(int)input.size()-1;i++){
         test.setup(input[i]);
     }cout << endl;
 
