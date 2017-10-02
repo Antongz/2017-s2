@@ -18,11 +18,13 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <queue>
 #include <ctype.h>
 #include <sstream>
 #include <fstream>
 #include <string.h>
 #include <algorithm>
+#include <utility>
 
 using namespace std;
 
@@ -31,7 +33,7 @@ class Page{
     int eventTrace = 0;
     int readDisk = 0;
     int writeDisk = 0;
-    int pageFaults = 0;
+    int preFetchFaults = 0;
     int pageSize = 0;
     int numberOfPage = 0;       //the number of page frames in simulated memory
     string algorithm = "";
@@ -41,19 +43,18 @@ class Page{
     int curLength = 0;          //current length of our list
     int ARB = 0;                //store the ARB value
     int workingSets = 0;        //store the size of working set
+    int curWorkingSets = 0;
     int counter = 0;
+    bool checkFirst = true;
     struct Node{
         Node* next = nullptr;
         Node* prev = nullptr;
         string wr;              //check read or write
         long long memoryAd;     //store memory address
         long long pageID;       //store the pageID
-        long long arb8Bits = 0;      //for additional arb8Bits bit
+        long long arb8Bits = 0; //for additional arb8Bits bit
         string arb = "00000000";
-        int reference = 0;
-        bool changeR = false;
-        int interval = 0;
-        bool justGetRef = true;
+        int reference = 1;
     };
     Node* head = nullptr;
     Node* tail = nullptr;
@@ -62,7 +63,6 @@ class Page{
     vector<int> processLength;
     vector<Node*> process;
     vector<Node*> processTail;
-    vector<bool> checkProcess;
 
 public:
     Page(string mode,string PageSize,string numberOfPage,string algorithm){
@@ -79,55 +79,98 @@ public:
         //      pid command
         if(demand[0]=='#'){
             if(this->algorithm=="fifo"||this->algorithm=="arb"){
-                counter = 0;
-            }else{
+                ;
+            }else if(this->algorithm=="wsarb"){
+                if(checkFirst){
+                    checkFirst = false;
+                }else{
+                //store the current state
+                //check whether the state is already in the our working set
+                    bool checkStoreInWS = false;
+                    for(int i=0;i<(int)processID.size();i++){
+                        if(processID[i]==curPID){
+                            process[i] = head;
+                            processTail[i] = tail;
+                            processLength[i] = curLength;
+                            checkStoreInWS = true;
+                            break;
+                        }
+                    }
+                    if(checkStoreInWS)
+                        ;
+                    else{
+                        processID.push_back(curPID);
+                        processLength.push_back(curLength);
+                        processTail.push_back(tail);
+                        process.push_back(head);
+                    }
+                }
+
+                //then we check the new arrive process is in our working set
                 string tempPID;
                 for(int i=2;i<(int)demand.length();i++){
                     if(demand[i]==' ')
                         break;
                     tempPID += demand[i];
                 }
-                int newPID = stoi(tempPID);
-
-                if((int)processID.size()==0){
-                    processID.push_back(newPID);
-                    checkProcess.push_back(true);
-                    curPID = newPID, head = nullptr, tail = nullptr, curLength = 0;
-                }else{
-                    //store the current state
-                    for(int i=0;i<(int)processID.size();i++){
-                        if(curPID==processID[i]){
-                            if(i==(int)processID.size()-1&&checkProcess[i]==true){
-                                processLength.push_back(curLength);
-                                process.push_back(head);
-                                processTail.push_back(tail);
-                                checkProcess[i] = false;
-                            }else{
-                                processLength[i] = curLength;
-                                process[i] = head;
-                                processTail[i] = tail;
-                            }
-                            break;
-                        }
+                int newPID = stoi(tempPID);     //store our new process ID
+                //check whether the new process ID is already in our working set
+                bool checkIfInWorkingSet = false;
+                for(int i=0;i<(int)processID.size();i++){
+                    if(processID[i]==newPID){
+                        checkIfInWorkingSet = true;
+                        break;
                     }
+                }
+                curWorkingSets++;
 
-                    //set up for the new/old proceess
-                    bool check = true;
+                //if our new process is already in our working set
+                //we need to load the pages
+                if(checkIfInWorkingSet){
+                    //store our current state first
+                    if(curWorkingSets>workingSets)
+                        curWorkingSets = workingSets;
+                    //load the working set
+                    int pos = 0;
                     for(int i=0;i<(int)processID.size();i++){
                         if(newPID==processID[i]){
+                            pos = i;
                             head = process[i];
                             tail = processTail[i];
                             curLength = processLength[i];
                             curPID = processID[i];
-                            check = false;
                             break;
                         }
                     }
-                    if(check){
-                        processID.push_back(newPID);
-                        checkProcess.push_back(true);
-                        head = nullptr, tail = nullptr, curLength = 0, curPID = newPID;
+                    //swap our pages to the last of our queue
+                    for(int i=pos;i<(int)processID.size()-1;i++){
+                        swap(processID[i],processID[i+1]);
+                        swap(process[i],process[i+1]);
+                        swap(processTail[i],processTail[i+1]);
+                        swap(processLength[i],processLength[i+1]);
                     }
+                }
+                //the process is not in working set
+                //set up for the new/old proceess
+                else{
+                    if(curWorkingSets>workingSets){
+                        curWorkingSets = workingSets;
+                        vector<int> tempProcessID;
+                        vector<int> tempProcessLength;
+                        vector<Node*> tempProcess;
+                        vector<Node*> tempProcessTail;
+                        for(int i=1;i<(int)processID.size();i++){
+                            tempProcessID.push_back(processID[i]);
+                            tempProcessLength.push_back(processLength[i]);
+                            tempProcess.push_back(process[i]);
+                            tempProcessTail.push_back(processTail[i]);
+                        }
+                        processID = tempProcessID;
+                        process = tempProcess;
+                        processTail = tempProcessTail;
+                        processLength = tempProcessLength;
+                    }
+                    curPID = newPID, head = nullptr, tail = nullptr, curLength = 0;
                 }
             }
 
@@ -223,12 +266,8 @@ public:
             if(temp->wr=="W"){
                 changeSamePage(itr);
                 pageGetReference(itr);
-                //removeNode(itr);
-                //addNew(itr);
             }else{       
                 pageGetReference(itr);
-                //removeNode(itr);
-                //addNew(temp);
             }
         }else{
         //If the new demand is not in our pages
@@ -248,69 +287,16 @@ public:
                 //we need to replace the page
                 Node* tempD = tail;
                 Node* tempR = tail;
-                //find all the reference is zero first
 
                 while(tempD!=nullptr){
-                    if(tempD->arb8Bits==0){
+                    if(tempD->arb8Bits==0&&tempD->reference==0){
                         tempR = tempD;
-                        if(tempR->reference==0)
-                            break;
-                        else{
-                            //check whether there're other nodes with the same value but without reference
-                            Node* tempC = tempR;
-                            while(tempC!=nullptr){
-                                bool checkIfRemove = true;
-                                if(tempC->arb8Bits==0){
-                                    if(tempC->reference==0){
-                                        tempR = tempC;
-                                        secondChance(tempR,false);
-                                        break;
-                                    }
-                                    if(tempC->reference==1){
-                                        tempC->reference = 0;
-                                        Node* tempNew = tempC;
-                                        checkIfRemove = false;
-                                        tempC = tempC->prev;
-                                        removeNode(tempNew);
-                                        addNew(tempNew);
-                                    }
-                                }
-                                if(checkIfRemove)
-                                    tempC = tempC->prev;
-                            }
-                            break;
-                        }
-
-                    }else{
-                        if(tempR->arb8Bits>tempD->arb8Bits)
-                            tempR = tempD;
+                        break;
                     }
+                    if(tempD->arb8Bits<tempR->arb8Bits&&tempD->reference==0)
+                        tempR = tempD;
                     tempD = tempD->prev;
                 }
-                if(tempR->arb8Bits!=0||tempR->reference!=0){
-                    tempD = tempR;
-                    while(tempD!=nullptr){
-                        bool checkIfRemove = true;
-                        if(tempR->arb8Bits==tempD->arb8Bits){
-                            if(tempD->reference==0){
-                                tempR = tempD;
-                                break;
-                            }else{
-                                if(tempD->reference==1){
-                                    tempD->reference = 0;
-                                    Node* tempNew = tempD;
-                                    checkIfRemove = false;
-                                    tempD = tempD->prev;
-                                    removeNode(tempNew);
-                                    addNew(tempNew);
-                                }
-                            }
-                        }
-                        if(checkIfRemove)
-                            tempD = tempD->prev;
-                    }
-                }
-
                 if(debug){
                     if(tempR->wr=="W"){
                         writeDisk++;
@@ -323,7 +309,6 @@ public:
                 }
                 removeNode(tempR);
                 addNew(temp);
-
             }
         }
         //test
@@ -336,12 +321,11 @@ public:
                 itr = itr->next;
             }
         }
-
-
     }
     void wsarb(string demand){
         Node* temp = new Node();
         setMemAndWR(temp,demand);
+
         bool ifInPage = false;
         Node* itr = head;
         while(itr!=nullptr){
@@ -351,7 +335,6 @@ public:
             }
             itr = itr->next;
         }
-
         //If the new demand is already in our pages table
         if(ifInPage){
             if(debug)
@@ -361,37 +344,41 @@ public:
                 itr = itr->next;
             if(temp->wr=="W"){
                 changeSamePage(itr);
-                pageGetReference(temp);
-                //removeNode(temp);
-                //addNew(temp);
+                pageGetReference(itr);
             }else{
                 pageGetReference(itr);
-                //removeNode(itr);
-                //addNew(temp);
             }
         }else{
-        //check the working set:
-            bool checkFetch = false;
+        //If the new demand is not in our pages
+            //check whether it is in other process
             Node* checkW;
-            for(int i=(int)process.size()-1;i>=(int)process.size()-1-workingSets&&
-                (int)process.size()-1-workingSets>=0;i--){
+            bool checkIn = false;
+
+            for(int i=0;i<(int)processID.size();i++){
                 checkW = process[i];
-                while(checkW!=nullptr){
-                    if(checkW->pageID==temp->pageID){
-                        checkFetch = true;
-                        break;
+                checkIn = false;
+                if(curPID!=processID[i]){
+                    while(checkW!=nullptr){
+                        if(checkW->pageID==temp->pageID){
+                            removeNodeWsarb(checkW,i);
+                            checkIn = true;
+                            break;
+                        }
+                        checkW = checkW->next;
                     }
-                    checkW = checkW->next;
                 }
-                if(checkFetch){
-                    pageFaults++;
+                if(checkIn){
                     break;
                 }
+
             }
 
-
-        //If the new demand is not in our pages
-            readDisk++;
+            if(checkIn){
+                preFetchFaults++;
+                if(checkW->wr=="W")
+                    temp->wr = "W";
+            }else
+                readDisk++;
             if(debug)
                 cout << "MISS: " << "page " << temp->pageID << endl;
             if(curLength==0){
@@ -407,68 +394,16 @@ public:
                 //we need to replace the page
                 Node* tempD = tail;
                 Node* tempR = tail;
-                //find all the reference is zero first
 
                 while(tempD!=nullptr){
-                    if(tempD->arb8Bits==0){
+                    if(tempD->arb8Bits==0&&tempD->reference==0){
                         tempR = tempD;
-                        if(tempR->reference==0)
-                            break;
-                        else{
-                            //check whether there're other nodes with the same value but without reference
-                            Node* tempC = tempR;
-                            while(tempC!=nullptr){
-                                bool checkIfRemove = true;
-                                if(tempC->arb8Bits==0){
-                                    if(tempC->reference==0){
-                                        tempR = tempC;
-                                        break;
-                                    }
-                                    if(tempC->reference==1){
-                                        tempC->reference = 0;
-                                        Node* tempNew = tempC;
-                                        checkIfRemove = false;
-                                        tempC = tempC->prev;
-                                        removeNode(tempNew);
-                                        addNew(tempNew);
-                                    }
-                                }
-                                if(checkIfRemove)
-                                    tempC = tempC->prev;
-                            }
-                            break;
-                        }
-
-                    }else{
-                        if(tempR->arb8Bits>tempD->arb8Bits)
-                            tempR = tempD;
+                        break;
                     }
+                    if(tempD->arb8Bits<tempR->arb8Bits&&tempD->reference==0)
+                        tempR = tempD;
                     tempD = tempD->prev;
                 }
-                if(tempR->arb8Bits!=0||tempR->reference!=0){
-                    tempD = tempR;
-                    while(tempD!=nullptr){
-                        bool checkIfRemove = true;
-                        if(tempR->arb8Bits==tempD->arb8Bits){
-                            if(tempD->reference==0){
-                                tempR = tempD;
-                                break;
-                            }else{
-                                if(tempD->reference==1){
-                                    tempD->reference = 0;
-                                    Node* tempNew = tempD;
-                                    checkIfRemove = false;
-                                    tempD = tempD->prev;
-                                    removeNode(tempNew);
-                                    addNew(tempNew);
-                                }
-                            }
-                        }
-                        if(checkIfRemove)
-                            tempD = tempD->prev;
-                    }
-                }
-
                 if(debug){
                     if(tempR->wr=="W"){
                         writeDisk++;
@@ -481,42 +416,37 @@ public:
                 }
                 removeNode(tempR);
                 addNew(temp);
-
             }
         }
-        itr = head;
-        while(itr!=nullptr){
-            shiftNodeARB(itr);
-            itr = itr->next;
+        //test
+        counter++;
+        if(counter==ARB){
+            counter = 0;
+            itr = head;
+            while(itr!=nullptr){
+                shiftNodeARB(itr);
+                itr = itr->next;
+            }
         }
     }
-
-    void ReAdd(Node* node){
-
+    void removeNodeWsarb(Node* node,int pos){
+        if(node==process[pos])
+            process[pos] = node->next;
+        if(node==processTail[pos])
+            processTail[pos] = node->prev;
+        Node* tempN = node->next;
+        Node* tempP = node->prev;
+        tempP->next = tempN;
+        tempN->prev = tempP;
+        node->prev = nullptr;
+        node->next = nullptr;
+        processLength[pos]--;
     }
-    void secondChance(Node* node,bool check){
-        Node* temp = tail;
-        if(check){
-            int count = curLength;
-            while(count>0){
-                if(temp->arb8Bits==node->arb8Bits){
-                    temp->reference = 0;
-                    removeNode(temp);
-                    addNew(temp);
-                }
-                count--;
-                temp = temp->prev;
-            }
-        }else{
-            while(temp!=node){
-                if(temp->arb8Bits==node->arb8Bits){
-                    temp->reference = 0;
-                    removeNode(temp);
-                    addNew(temp);
-                }
-                temp = temp->prev;
-            }
-        }
+    void secondChance(Node* node){
+        string newShiftBit = "10000000";
+        node->arb = newShiftBit;
+        node->arb8Bits = HexToDecimal(node->arb);
+        node->reference = 0;
     }
     void changeSamePage(Node* node){
         node->wr = "W";
@@ -562,14 +492,6 @@ public:
             temp += demand[i];
         node->memoryAd = HexToDecimal(temp);
         setPageId(node);
-        //cout << node->wr << endl;
-        //cout << node->memoryAd << endl;
-        string newShiftBit = "1";
-        for(int i=0;i<7;i++)
-            newShiftBit += node->arb[i];
-        node->arb = newShiftBit;
-        node->arb8Bits = HexToDecimal(node->arb);
-
     }
     long long HexToDecimal(string hex){
         long long temp = 0;
@@ -643,11 +565,9 @@ public:
         cout << "events in trace: " << eventTrace << endl;
         cout << "total disk reads: " << readDisk << endl;
         cout << "total disk writes: " << writeDisk << endl;
-        cout << "page faults: " << pageFaults << endl;
-        cout << "prefetch faults: " << readDisk - pageFaults << endl;
+        cout << "page faults: " << readDisk-preFetchFaults << endl;
+        cout << "prefetch faults: " << preFetchFaults << endl;
     }
-
-
     void setARB(string arb){
         ARB = stoi(arb);
     }
@@ -655,36 +575,23 @@ public:
         ARB = stoi(arb);
         workingSets = stoi(workingSize);
     }
-
     void pageGetReference(Node* node){
         node->reference = 1;
-        node->interval = 0;
-        node->justGetRef = true;
-        //test here
-        string newShiftBit = "1";
-        for(int i=0;i<7;i++)
-            newShiftBit += node->arb[i];
-        node->arb = newShiftBit;
-        node->arb8Bits = HexToDecimal(node->arb);
     }
     void shiftNodeARB(Node* node){
-        if(node->justGetRef){
-            node->justGetRef = false;
-            //string newShiftBit = "1";
-            //for(int i=0;i<7;i++)
-            //    newShiftBit += node->arb[i];
-            //node->arb = newShiftBit;
-            //node->arb8Bits = HexToDecimal(node->arb);
+        if(node->reference==1){
+            string newShiftBit = "1";
+            for(int i=0;i<7;i++)
+                newShiftBit += node->arb[i];
+            node->arb = newShiftBit;
+            node->arb8Bits = HexToDecimal(node->arb);
+            node->reference = 0;
         }else{
-            //if(node->interval==ARB-1){
-            //    node->interval = 0;
-                string newShiftBit = "0";
-                for(int i=0;i<7;i++)
-                    newShiftBit += node->arb[i];
-                node->arb = newShiftBit;
-                node->arb8Bits = HexToDecimal(node->arb);
-            //}else
-            //    node->interval++;
+            string newShiftBit = "0";
+            for(int i=0;i<7;i++)
+                newShiftBit += node->arb[i];
+            node->arb = newShiftBit;
+            node->arb8Bits = HexToDecimal(node->arb);
         }
     }
 
@@ -706,10 +613,10 @@ int main(int argc,char* argv[]){
 
 	while(getline(infile,line)){
 		istringstream iss(line);
-        cout << line << endl;
-        //test.deMandPage(line);
+        //cout << line << endl;
+        test.deMandPage(line);
 	}
-    //test.print();
+    test.print();
 
     return 0;
 }
