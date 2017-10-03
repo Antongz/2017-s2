@@ -23,13 +23,23 @@
 using namespace std;
 
 class HandsShaking{
+    long long dp[51];
+    long long find(int n){
+        if(n==0)
+            return 1;
+        if(dp[n]!=-1)
+            return dp[n];
+        dp[n] = 0;
+        for(int i=1;i<n;i++)
+            dp[n] += find(i-1)*find(n-1-i);
+
+        return dp[n];
+    }
 
 public:
     long long countPerfect(int n){
-        int tempN = n/2;
-        long long res = 0;
-        res = fac(2*tempN,tempN+2)/fac(tempN,1);
-        return res;
+        memset(dp,0xff,sizeof(dp));
+        return find(n);
     }
     long long fac(int n,int start){
         long long res = 1;
