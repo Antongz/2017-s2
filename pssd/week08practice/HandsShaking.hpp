@@ -25,14 +25,14 @@ using namespace std;
 class HandsShaking{
 
 public:
-    long countPerfect(int n){
+    long long countPerfect(int n){
         int tempN = n/2;
-        long res = 0;
+        long long res = 0;
         res = fac(2*tempN)/(fac(tempN+1)*fac(tempN));
         return res;
     }
-    long fac(int n){
-        long res = 1;
+    long long fac(int n){
+        long long res = 1;
         while(n>=1){
             res = res*n;
             n--;
