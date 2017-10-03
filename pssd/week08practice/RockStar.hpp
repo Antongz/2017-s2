@@ -21,30 +21,29 @@
 
 using namespace std;
 
-
 class RockStar{
 
 public:
-	int getNumSongs(int ff,int fs,int sf,int ss){
-		int res = 0;
-		if(ff>0||fs>0){
-			res += ff;
-			if(fs>0){
-				fs--;
-				res++;
-				res += ss;
-				if(sf>0){
-					res++;
-					sf--;
-					res + 2*min(fs,sf);
-				}
+    int getNumSongs(int ff,int fs,int sf,int ss){
+        int res = 0;
+        if(ff>0||fs>0){
+            res += ff;
+            if(fs>0){
+                res++;
+                res += ss;
+                if(sf>0){
+                    res++;
+                    res  = res + 2*min(fs-1,sf-1);
+                    if(fs-1>sf-1)
+                        res++;
+                }
 
-			}
-		}else{
-			res += ss;
-			if(sf>0)
-				res++;
-		}
-		return res;
-	}
+            }
+        }else{
+            res += ss;
+            if(sf>0)
+                res++;
+        }
+        return res;
+    }
 };
