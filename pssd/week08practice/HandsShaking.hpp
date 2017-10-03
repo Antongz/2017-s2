@@ -28,12 +28,12 @@ public:
     long long countPerfect(int n){
         int tempN = n/2;
         long long res = 0;
-        res = fac(2*tempN)/(fac(tempN+1)*fac(tempN));
+        res = fac(2*tempN,tempN+2)/fac(tempN,1);
         return res;
     }
-    long long fac(int n){
+    long long fac(int n,int start){
         long long res = 1;
-        while(n>=1){
+        while(n>=start){
             res = res*n;
             n--;
         }
