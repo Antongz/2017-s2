@@ -16,11 +16,17 @@
  * =====================================================================================
  */
 
+
 #include <iostream>
+#include <vector>
+#include <string>
+#include <string.h>
+#include <stdio.h>
 #include <algorithm>
 #include <map>
 
 using namespace std;
+
 
 class HandsShaking{
     long long dp[51];
