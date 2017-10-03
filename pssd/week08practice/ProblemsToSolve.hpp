@@ -28,7 +28,8 @@ class ProblemsToSolve{
 public:
     int minNumber(vector<int> pleasantness,int variety){
         int res = 100000;
-
+        if(variety==1)
+            return 1;
         for(int i=0;i<(int)pleasantness.size();i++){
             int temp = pleasantness[i];
             for(int j=i+1;j<(int)pleasantness.size();j++){
