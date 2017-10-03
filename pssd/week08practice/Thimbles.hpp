@@ -28,7 +28,7 @@ public:
     //initially the target is in the first one
         char res = '1';
         int itr = 0;
-        while(itr<(int)swaps.size()-1){
+        while(itr<(int)swaps.size()){
             char pos1 = swaps[itr][0];
             char pos2 = swaps[itr][2];
             if(res==pos1){
