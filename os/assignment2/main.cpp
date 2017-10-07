@@ -29,7 +29,6 @@
 using namespace std;
 
 class Page{
-
     int eventTrace = 0;
     int readDisk = 0;
     int writeDisk = 0;
@@ -286,6 +285,7 @@ class Page{
     }
     void pageGetReference(Node* node){
         node->reference = 1;
+        node->countWS = 0;
     }
     void shiftNodeARB(Node* node){
         if(node->reference==1){
@@ -303,6 +303,14 @@ class Page{
             node->arb8Bits = HexToDecimal(node->arb);
         }
     }
+    void printCurPageTable(){
+        Node* itr = tail;
+        cout << "print current table" << endl;
+        while(itr!=nullptr){
+            cout << itr->pageID << " ";
+            itr = itr->prev;
+        }cout << endl;
+    }
 
 public:
     Page(string mode,string PageSize,string numberOfPage,string algorithm){
@@ -319,7 +327,7 @@ public:
         //      pid command
         if(demand[0]=='#'){
             if(this->algorithm=="fifo"||this->algorithm=="arb"){
-                ;
+                ;//printCurPageTable();
             }
             else if(this->algorithm=="wsarb"){
                 //cout << curWorkingSets << endl;
@@ -340,6 +348,8 @@ public:
                     curPID = newPID;
                     //cout << "pid: " << curPID << endl;
                 }else{
+                    //cout << "current pid:" << curPID << endl;
+                    //printCurPageTable();
                     //printCurSet(WShead);
                     updateWSet();
 
@@ -391,11 +401,14 @@ public:
 
                     //if our new process is already in our working set
                     //we need to load the pages
-                    if(checkIfInWorkingSet&&newPID!=curPID){
+                    if(checkIfInWorkingSet){
                         //store our current state first
                         //load the working set
+                        WShead = process[pos];
+                        WStail = processTail[pos];
+                        curWorkingSets = processLength[pos];
                         Node* itr = tail;
-                        Node* itrWs = processTail[pos];
+                        Node* itrWs = WStail;
                         while(itrWs!=nullptr){
                             itr = tail;
                             while(itr!=nullptr){
@@ -411,7 +424,7 @@ public:
                         }
 
                         itr = tail;
-                        itrWs = process[pos];
+                        itrWs = WShead;
                         Node* tempR = tail;
 
                         while(itrWs!=nullptr){
@@ -424,6 +437,10 @@ public:
                                     if(tempR->arb8Bits>itr->arb8Bits
                                             &&itr->reference==0&&itr->checkWS==false)
                                         tempR = itr;
+                                    else if(tempR->reference==1&&itr->reference==1&&
+                                            tempR->arb8Bits>itr->arb8Bits&&itr->checkWS==false)
+                                        tempR = itr;
+
                                     itr = itr->prev;
                                 }
                                 //cout << "prepaging, replace: " << tempR->pageID << " to " << itrWs->pageID << endl;
@@ -432,6 +449,10 @@ public:
                                 }
                                 removeNode(tempR);
                                 Node* tempNew = copyLink(itrWs);
+                                tempNew->checkWS = true;
+                                //tempNew->reference = 1;
+                                //tempNew->arb8Bits = 0;
+                                //tempNew->arb = "00000000";
                                 addNew(tempNew);
                             }
                             itrWs = itrWs->next;
@@ -448,20 +469,13 @@ public:
                             itr = itr->prev;
                         }
 
-                        //cout << "here" << endl;
-                        WShead = process[pos];
-                        WStail = processTail[pos];
-                        int count = 0;
-                        itr = WShead;
-                        while(itr!=nullptr){
-                            count++;
-                            itr->countWS = 0;
-                            itr = itr->next;
-                        }
-                        curWorkingSets = count;
+                        //cout << "after prepaging" << endl;
+                        //printCurPageTable();
+                        //printCurSet(WShead);
+                        //WShead = nullptr;
+                        //WStail = nullptr;
+                        //curWorkingSets = 0;
                         curPID = newPID;
-                        //curProcessEvent = curWorkingSets;
-
                     }
 
                     //the process is not in working set
@@ -474,7 +488,6 @@ public:
                         curPID = newPID;
                     }
                 }
-                //cout << endl;
             }
 
         }else if(demand[0]=='W'||demand[0]=='R'){
@@ -573,8 +586,11 @@ public:
         //test for working set models
         //cout << WSitr->pageID << endl;
         //updateWSet();
-        shiftWS();
+        WSitr = copyLink(temp);
         addWSNode(WSitr);
+        shiftWS();
+        if(curWorkingSets>workingSets)
+            cout << "curworkingsets size is bigger than workingsets size" << endl;
     }
 
     void addNew(Node* temp){
@@ -657,7 +673,7 @@ public:
         while(itr!=nullptr){
             Node* temp = itr;
             itr = itr->prev;
-            if(temp->countWS>=workingSets){
+            if(temp->countWS>workingSets){
                 //cout << temp->pageID << " " << temp->countWS << " " << curWorkingSets << endl;
                 removeWSNode(temp);
             }
@@ -699,6 +715,12 @@ public:
             itr = itr->next;
         }
         testWSRemove();
+        //test
+        itr = head;
+        while(itr!=nullptr){
+            itr->countWS++;
+            itr = itr->next;
+        }
     }
     void updateWSet(){
         Node* itr = head;
@@ -727,6 +749,7 @@ public:
         temp->memoryAd = oldNode->memoryAd;
         temp->pageID = oldNode->pageID;
         temp->reference = oldNode->reference;
+        temp->countWS = oldNode->countWS;
         temp->prev = nullptr;
         temp->next = nullptr;
         return temp;
