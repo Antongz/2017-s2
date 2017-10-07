@@ -443,7 +443,7 @@ public:
                                 }
                                 //cout << "prepaging, replace: " << tempR->pageID << " to " << itrWs->pageID << endl;
                                 if(tempR->wr=="W"){
-                                    ;//writeDisk++;
+                                    writeDisk++;
                                 }
                                 removeNode(tempR);
                                 Node* tempNew = copyLink(itrWs);
@@ -526,7 +526,7 @@ public:
             }else{
                 pageGetReference(itr);
             }
-            WSitr = copyLink(itr);
+            //WSitr = copyLink(itr);
         }else{
             readDisk++;
             if(debug)
@@ -567,7 +567,7 @@ public:
                 removeNode(tempR);
                 addNew(temp);
             }
-            WSitr = copyLink(temp);
+            //WSitr = copyLink(temp);
         }
 
         //shift arb
@@ -730,7 +730,7 @@ public:
                     itr2->arb8Bits = itr->arb8Bits;
                     itr2->arb = itr->arb;
                     itr2->reference = itr->reference;
-                    itr2->wr = itr->wr;
+                    itr2->wr = "R";
                     break;
                 }
                 itr = itr->next;
