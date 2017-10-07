@@ -413,8 +413,6 @@ public:
                             itr = tail;
                             while(itr!=nullptr){
                                 if(itrWs->pageID==itr->pageID){
-                                    if(itrWs->wr=="W")
-                                        itr->wr = "W";
                                     itr->checkWS = true;
                                     itrWs->checkWS = true;
                                 }
@@ -445,7 +443,7 @@ public:
                                 }
                                 //cout << "prepaging, replace: " << tempR->pageID << " to " << itrWs->pageID << endl;
                                 if(tempR->wr=="W"){
-                                    writeDisk++;
+                                    ;//writeDisk++;
                                 }
                                 removeNode(tempR);
                                 Node* tempNew = copyLink(itrWs);
