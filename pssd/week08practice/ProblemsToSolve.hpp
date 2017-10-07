@@ -42,6 +42,7 @@ public:
                             tempR = (j-i)/2 + 1;
                             if(i!=0&&j!=0)
                                 tempR++;
+                        }
                     }else if(i%2==0&&j%2!=0){
                         tempR = (i/2) + 1 + (j-i)/2 + 1;
                     }else if(i%2!=0&&j%2==0){
