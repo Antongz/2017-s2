@@ -37,12 +37,9 @@ public:
                 if(abs(temp-pleasantness[j])>=variety){
                     int tempR;
                     if(i%2==0&&j%2==0){
-                        tempR = (j-i)/2 + 1;
-                        if(i%2==0&&j%2==0){
-                            tempR = (j-i)/2 + 1;
-                            if(i!=0&&j!=0)
-                                tempR++;
-                        }
+                        tempR = (j-i)/2 + 1 + i/2;
+                        if(i!=0&&j!=0)
+                            tempR++;
                     }else if(i%2==0&&j%2!=0){
                         tempR = (i/2) + 1 + (j-i)/2 + 1;
                     }else if(i%2!=0&&j%2==0){
@@ -55,6 +52,7 @@ public:
 
                     if(res>tempR){
                         res = tempR;
+                        //cout << i << " " << j << " " << tempR << endl;
                         checkFind = false;
                     }
                     break;
