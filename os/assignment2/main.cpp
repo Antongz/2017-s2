@@ -157,6 +157,7 @@ class Page{
         }else{
         //If the new demand is not in our pages
             readDisk++;
+            pageFaults++;
             if(debug)
                 cout << "MISS: " << "page " << temp->pageID << endl;
             if(curLength==0){
