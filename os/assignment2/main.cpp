@@ -33,6 +33,7 @@ class Page{
     int readDisk = 0;
     int writeDisk = 0;
     int preFetchFaults = 0;
+    int pageFaults = 0;
     int pageSize = 0;
     int numberOfPage = 0;       //the number of page frames in simulated memory
     string algorithm = "";
@@ -92,6 +93,7 @@ class Page{
         }else{
         //If the new demand is not in our pages
             readDisk++;
+            pageFaults++;
             if(debug)
                 cout << "MISS: " << "page " << temp->pageID << endl;
             if(curLength==0){
@@ -529,6 +531,7 @@ public:
             //WSitr = copyLink(itr);
         }else{
             readDisk++;
+            pageFaults++;
             if(debug)
                 cout << "MISS: " << "page " << temp->pageID << endl;
             if(curLength==0){
@@ -632,7 +635,7 @@ public:
         cout << "events in trace: " << eventTrace << endl;
         cout << "total disk reads: " << readDisk << endl;
         cout << "total disk writes: " << writeDisk << endl;
-        cout << "page faults: " << readDisk-preFetchFaults << endl;
+        cout << "page faults: " << pageFaults << endl;
         cout << "prefetch faults: " << preFetchFaults << endl;
     }
     void setARB(string arb){
@@ -760,10 +763,6 @@ public:
 int main(int argc,char* argv[]){
 	ifstream infile(argv[1]);
 	string line;
-
-    for(int i=0;i<argc;i++){
-        cout << argv[i] << " ";
-    }cout << endl;
     Page test(argv[2],argv[3],argv[4],argv[5]);
     string alg = argv[5];
     if(alg=="arb")
