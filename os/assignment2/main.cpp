@@ -761,6 +761,9 @@ int main(int argc,char* argv[]){
 	ifstream infile(argv[1]);
 	string line;
 
+    for(int i=0;i<argc;i++){
+        cout << argv[i] << " ";
+    }cout << endl;
     Page test(argv[2],argv[3],argv[4],argv[5]);
     string alg = argv[5];
     if(alg=="arb")
