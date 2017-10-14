@@ -39,7 +39,8 @@ class RoughStrings{
         if(length<=1)
             return 0;
         sort(count.begin(),count.end());
-        int res = count[length-1] - count[0];
+        int res = 0;
+        res = count[length-1] - count[0];
         if(d==n_)
             return memo[count] = res;
         if(count[0]>0){
