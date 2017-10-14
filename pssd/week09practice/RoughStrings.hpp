@@ -59,7 +59,7 @@ public:
         string temp = "";
         vector<string> charS;
         vector<int> count;
-        for(int i=0;i<(int)s.size();i++){
+        for(int i=0;i<(int)s.length();i++){
             temp = s[i];
             bool check = true;
             for(int j=0;j<(int)charS.size();j++){
