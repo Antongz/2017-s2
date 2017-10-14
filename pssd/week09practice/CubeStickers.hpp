@@ -52,7 +52,7 @@ public:
 				count++;
 		}
 
-        if(count>=3||(count==1&&colorsN.size()>=5)||(count==2&&colorsN.size()>=4))
+        if(count>=3||(count==1&&colorsN.size()>=5)||(count==2&&colorsN.size()>=4)||colorsN.size()>=6)
 			return "YES";
 		else
 			return "NO";
