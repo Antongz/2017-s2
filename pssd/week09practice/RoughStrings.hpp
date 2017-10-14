@@ -19,10 +19,40 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <vector>
+#include <map>
 
 using namespace std;
 
+#define found(s,e)  ((s).find(e)!=(s).end())
+#define remove_(c,val) (c).erase(remove((c).begin(),(c).end(),(val)),(c).end())
+
 class RoughStrings{
+    map<vector<int>,int> memo;
+    int n_ = 0;
+
+    int find(vector<int> count,int d){
+        remove_(count,0);
+        if(found(memo,count))
+            return memo[count];
+        int length = count.size();
+        if(length<=1)
+            return 0;
+        sort(count.begin(),count.end());
+        int res = count[length-1] - count[0];
+        if(d==n_)
+            return memo[count] = res;
+        if(count[0]>0){
+            count[0]--;
+            res = min(res,find(count,d+1));
+            count[0]++;
+        }
+        count[length-1]--;
+        res = min(res,find(count,d+1));
+        count[length-1]++;
+        return memo[count] = res;
+    }
+
 
 public:
     int minRoughness(string s,int n){
@@ -45,31 +75,8 @@ public:
             }
         }
         sort(count.begin(),count.end());
-        int posm = 0;
-        int posM = count.size()-1;
-        int res = count[posM] - count[posm];
-        for(int i=1;i<=n;i++){
-            posm = 0;
-            posM = count.size()-1;
-            sort(count.begin(),count.end());
-
-            if(count[posm]==1){
-                if(res>count[posM]-count[posm+1]){
-                    posm++;
-                    res = count[posM] - count[posm];
-                    if(res==0)
-                        break;
-                }
-            }
-            if(res>abs(count[posM]-1-count[posm])){
-                res = abs(count[posM]-1-count[0]);
-                count[posM]--;
-                if(res==0)
-                    break;
-            }
-        }
-
-        return res;
+        n_ = n;
+        return find(count,0);
     }
 
 };
