@@ -58,6 +58,8 @@ class RoughStrings{
 public:
     int minRoughness(string s,int n){
         string temp = "";
+        map<vector<int>,int> new1;
+        memo = new1;
         vector<string> charS;
         vector<int> count;
         for(int i=0;i<(int)s.length();i++){
