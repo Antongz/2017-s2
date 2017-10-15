@@ -26,7 +26,7 @@ using namespace std;
 class CellRemoval{
     int n = 0;
     int killed = 0;
-    vector<int> test[51];
+    vector<int> test[100500];
     int search(int v){
         if(v==killed)
             return 0;
@@ -41,6 +41,8 @@ class CellRemoval{
 public:
     int cellsLeft(vector<int> parent,int deletedCell){
         killed = deletedCell;
+        vector<int> new1[100500];
+        test = new1;
         n = (int)parent.size();
         int root = 0;
         for(int i=0;i<(int)parent.size();i++)
