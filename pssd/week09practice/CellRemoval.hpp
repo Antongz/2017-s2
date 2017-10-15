@@ -19,39 +19,47 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-
+#include <queue>
 
 using namespace std;
 
-class CellRemoval{
-    int n = 0;
-    int killed = 0;
-    vector<int> test[100500];
-    int search(int v){
-        if(v==killed)
-            return 0;
-        if(test[v].empty())
-            return 1;
-        int x = 0;
-        for(int i=0;i<(int)test[v].size();i++)
-            x += search(test[v][i]);
-        return x;
+class CellRemoval {
+  int N = 0;
+  vector<bool> ch,m;
+ public:
+  int cellsLeft(vector<int> parent, int deletedCell) {
+    N = (int)parent.size();
+    ch.resize(N);
+    m.resize(N);
+    for(int i=0;i<N;i++)
+        ch[i]=m[i]=false;
+    queue<int> q;
+    for(int i=0;i<N;i++)
+        if(parent[i]==-1){
+            ch[i] = true;
+            q.push(i);
+            break;
+        }
+
+    while(!q.empty()){
+      int t = q.front();
+      q.pop();
+      if(t==deletedCell){
+          ch[t] = false;
+          continue;
+      }
+      for(int i=0;i<N;i++){
+        if(parent[i]==t){
+            m[t]=true;
+            ch[i]=true;
+            q.push(i);
+        }
+      }
     }
-
-public:
-    int cellsLeft(vector<int> parent,int deletedCell){
-        killed = deletedCell;
-        vector<int> new1[100500];
-        test = new1;
-        n = (int)parent.size();
-        int root = 0;
-        for(int i=0;i<(int)parent.size();i++)
-            if(parent[i]==-1)
-                root = i;
-            else
-                test[parent[i]].push_back(i);
-        return search(root);
-	} 
-
-
+    int cnt=0;
+    for(int i=0;i<N;i++)
+        if(ch[i]==true&&m[i]==false)
+            cnt++;
+    return cnt;
+  }
 };
