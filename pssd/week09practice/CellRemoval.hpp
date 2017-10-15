@@ -39,7 +39,7 @@ class CellRemoval{
     }
 
 public:
-	int remainingCell(vector<int> parent,int deletedCell){
+    int cellsLeft(vector<int> parent,int deletedCell){
         killed = deletedCell;
         n = (int)parent.size();
         int root = 0;
