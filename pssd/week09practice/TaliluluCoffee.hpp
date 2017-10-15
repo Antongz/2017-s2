@@ -27,20 +27,23 @@ class TaliluluCoffee{
 public:
 	int maxTip(vector<int> tips){
 		sort(tips.begin(),tips.end());
+        reverse(tips.begin(),tips.end());
 		int res = 0;
 		int itr = 0;
 		while(true){
 			bool check = true;
 			itr = 0;
 			for(int i=0;i<(int)tips.size();i++){
-				if(tips[i]!=0&&check){
-					itr = i;
-					res += tips[i];
-					tips[i] = 0;
-					check = false;
-				}else if(tips[i]!=0&&check==false){
-					tips[i]--;
-				}				
+                if(tips[i]>0){
+                    if(tips[i]!=0&&check){
+                        itr = i;
+                        res += tips[i];
+                        tips[i] = 0;
+                        check = false;
+                    }else if(tips[i]!=0&&check==false){
+                        tips[i]--;
+                    }
+                }
 			}
 			if(check)
 				break;
