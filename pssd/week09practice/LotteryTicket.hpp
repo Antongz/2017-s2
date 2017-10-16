@@ -35,7 +35,7 @@ public:
 		int tempR = price;
 		int itr = 3;
 		while(itr>=0){
-			if(test[itr]>price)
+			if(test[itr]>tempR)
 				itr--;
 			else
 				tempR -= test[itr], itr--;
