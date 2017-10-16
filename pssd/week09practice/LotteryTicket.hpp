@@ -25,29 +25,31 @@ using namespace std;
 class LotteryTicket{
 
 public:
-	string buy(int price,int b1,int b2,int b3,int b4){
-		vector<int> test;
-		test.push_back(b1);
-		test.push_back(b2);
-		test.push_back(b3);
-		test.push_back(b4);
-		sort(test.begin(),test.end());
-		int tempR = price;
-		int itr = 3;
-		while(itr>=0){
-			if(test[itr]>tempR)
-				itr--;
-			else
-				tempR -= test[itr], itr--;
-
-			if(tempR==0)
-				break;
-		}
-
-		if(tempR==0)
-			return "POSSIBLE";
-		else
-            return "IMPOSSIBLE";
-	}
+    string buy(int price,int b1,int b2,int b3,int b4){
+        vector<int> test;
+        test.push_back(b1);
+        test.push_back(b2);
+        test.push_back(b3);
+        test.push_back(b4);
+        sort(test.begin(),test.end());
+        vector<int> count;
+        for(int i=0;i<4;i++){
+            int temp = test[i];
+            count.push_back(test[i]);
+            for(int j=i+1;j<4;j++){
+                temp += test[j];
+                count.push_back(test[i]+test[j]);
+                count.push_back(temp);
+            }
+            if(i<2)
+                count.push_back(temp-test[i+1]);
+        }
+        for(int i=0;i<(int)count.size();i++){
+            //cout << count[i] << " ";
+            if(count[i]==price)
+                return "POSSIBLE";
+        };cout << endl;
+        return "IMPOSSIBLE";
+    }
 
 };
