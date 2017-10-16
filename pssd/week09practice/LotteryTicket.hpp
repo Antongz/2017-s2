@@ -21,7 +21,6 @@
 #include <algorithm>
 
 using namespace std;
-
 class LotteryTicket{
 public:
     string buy(int price,int b1,int b2,int b3,int b4){
@@ -39,8 +38,8 @@ public:
                 count.push_back(test[i]+test[j]);
                 count.push_back(temp);
             }
-            if(i<2)
-                count.push_back(temp-test[i+1]);
+            for(int j=i+1;j<4;j++)
+                count.push_back(temp-test[j]);
         }
         for(int i=0;i<(int)count.size();i++){
             //cout << count[i] << " ";
