@@ -23,7 +23,6 @@
 using namespace std;
 
 class LotteryTicket{
-
 public:
     string buy(int price,int b1,int b2,int b3,int b4){
         vector<int> test;
@@ -31,7 +30,6 @@ public:
         test.push_back(b2);
         test.push_back(b3);
         test.push_back(b4);
-        sort(test.begin(),test.end());
         vector<int> count;
         for(int i=0;i<4;i++){
             int temp = test[i];
@@ -48,7 +46,7 @@ public:
             //cout << count[i] << " ";
             if(count[i]==price)
                 return "POSSIBLE";
-        };cout << endl;
+        }//cout << endl;
         return "IMPOSSIBLE";
     }
 
