@@ -1,0 +1,102 @@
+#|a1691807 Yi-Ting, Hsieh |#
+;for question3
+;define some useful procedures:
+;head, tail, cons-stream, empty-stream?, the-empty-stream
+(define head car)
+(define (tail stream) (force (cdr stream)))
+(define-syntax cons-stream
+  (syntax-rules ()
+    ((cons-stream x y)
+     (cons x (delay y)))))
+(define empty-stream? null?)
+(define the-empty-stream '())
+;define our stream-ref procedure
+(define (stream-ref s n)
+  (if (= n 0)
+      (head s)
+      (stream-ref (tail s) (- n 1))))
+;define stream-null?
+(define (stream-null? stream)
+  (if (null? stream)
+      #t
+      #f))
+;define our print-first-n procedure for displaying our stream
+(define (print-first-n s n)
+  (cond ((= n 0) (newline))
+        ((= n 1) (begin (display (head s))
+                        (print-first-n the-empty-stream (- n 1))))
+        (else  (begin (display (head s))
+                      (display ", ")
+                      (print-first-n (tail s) (- n 1))))))
+;define ones stream for our current stream
+(define ones (cons-stream 1 ones))
+;define our stream-map, which will takes three arguments.
+;it would apply the proc to our argumentstream
+(define (stream-map2 proc . argstreams)
+  (if (stream-null? (car argstreams))
+      the-empty-stream
+      (cons-stream
+       (apply proc (map head argstreams))
+       (apply stream-map2 (cons proc (map tail argstreams))))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;define add-streams, for adding two streams
+(define (add-streams s1 s2) (stream-map2 + s1 s2))
+;define scale procedure, for scaling our input stream by n
+(define (scale-stream stream n) (stream-map2 (lambda(x) (* n x)) stream))
+;define the integral procedure
+(define (integral integrand initial-value dt)
+  (define int
+    (cons-stream initial-value
+                 (add-streams (scale-stream integrand dt)
+                              int)))
+  int)
+
+#|define our RC procedure, which would take as inputs the values R, C and dt.
+And it should return a procedure that takes as inputs a stream representing the current i and
+an initial value for the capacitor voltage v_0 and produces as output the stream of voltages.
+|#
+(define (RC R C dt)
+  (define (result input-stream initial-voltage)
+    (add-streams (scale-stream input-stream R)
+                (integral (scale-stream input-stream (/ 1 C)) initial-voltage dt)))
+  result)
+
+(define RC1 (RC 5 1 0.5))
+(define RC2 (RC 5 0.001 0.5))
+(define RC3 (RC 5 10 0.5))
+
+;for question3-(b)
+;(print-first-n (RC1 (scale-stream ones 0.001) 0) 20)
+;(print-first-n (RC2 (scale-stream ones 0.001) 0) 20)
+;(print-first-n (RC3 (scale-stream ones 0.001) 0) 20)
+
+;for question3-(c)
+;define our zeros stream
+(define zeros (cons-stream 0 zeros))
+;define our stream-interleave10 procedure, which will generate a stream with 10 samples from ones stream,
+;and then 10 samples from zeros stream, and then back to 10 samples from ones stream, and so on.
+;We only need to generate the total of 50 samples.
+(define (stream-interleave10 stream-ones stream-zeros n)
+  (cond ((= n 0)
+         '())
+        ((= n 10)
+         (cons-stream-zeros 10 n stream-ones stream-zeros)
+         )
+        ((= n 20)
+           (cons-stream-zeros 10 n stream-ones stream-zeros)
+         )
+    (else  (cons-stream (head stream-ones) (stream-interleave10 (tail stream-ones) stream-zeros (- n 1))))))
+;define cons-stream-zeros for passing the zeros stream 
+(define (cons-stream-zeros z n stream-ones stream-zeros)
+  (if (= z 0)
+      (cons-stream (head stream-ones) (stream-interleave10 (tail stream-ones) stream-zeros (- n 1)))
+  (cons-stream (head stream-zeros) (cons-stream-zeros (- z 1) n stream-ones (tail stream-zeros)))))
+
+;Define our current sample for q3-(c)
+;because we only need 50 samples at total, which means there would only has
+;30 samples come from ones stream
+(define q3-current (stream-interleave10 ones zeros 30))
+;(print-first-n q3-current 50)
+;(print-first-n (RC1 (scale-stream q3-current 0.001) 0) 50)
+

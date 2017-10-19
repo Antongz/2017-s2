@@ -1,0 +1,100 @@
+#|a1691807 Yi-Ting, Hsieh |#
+;for question2
+
+;define some useful procedures:
+;head, tail, cons-stream, empty-stream?, the-empty-stream
+(define head car)
+(define (tail stream) (force (cdr stream)))
+(define-syntax cons-stream
+  (syntax-rules ()
+    ((cons-stream x y)
+     (cons x (delay y)))))
+(define empty-stream? null?)
+(define the-empty-stream '())
+;define our stream-ref procedure
+(define (stream-ref s n)
+  (if (= n 0)
+      (head s)
+      (stream-ref (tail s) (- n 1))))
+;define stream-null?
+(define (stream-null? stream)
+  (if (null? stream)
+      #t
+      #f))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;(2-a) define reorder procedure
+;it should take two arguments: one order-stream and one as data-stream
+;it should construct a new stream rearrange the data-stream order according
+;to the order-stream.
+(define (reorder order-stream data-stream)
+  (cond ((stream-null? order-stream) the-empty-stream)
+        ((stream-null? data-stream) the-empty-stream)
+        (else (cons-stream (stream-ref data-stream (- (head order-stream) 1))
+              (reorder (tail order-stream) data-stream)))))
+
+#|define our order-stream and data-stream for testing |#
+(define o (cons-stream 3
+                      (cons-stream 1
+                                   (cons-stream 4
+                                                (cons-stream 2 '())))))
+(define d (cons-stream 4
+                      (cons-stream 13
+                                   (cons-stream 2
+                                                (cons-stream 8 '())))))
+;;testing our reorder procedure
+;(print-first-n (reorder o d) 4)   ;should print out: 2, 4, 8, 13
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;(2-b) define integers procedure
+
+(define (integers-starting-from n)
+  (cons-stream n (integers-starting-from (+ n 1))))
+
+(define integers (integers-starting-from 1))
+
+;testing our integers for q2-b
+;(print-first-n (reorder d integers) 4)  ;should print out: 4, 13, 2, 8
+;(print-first-n (reorder integers d) 4)  ;should print out: 4, 13, 2, 8
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;(2-c) define procedure print-first-n, which takes two arguments: stream s and a number n
+;and display the first n elements of the stream on one line separated by commas
+
+(define (1+ x) (+ x 1))
+
+(define (addOne s) (stream-map 1+ s))
+(define ints (cons-stream 1 (addOne ints)))
+
+(define (print-first-n s n)
+  (cond ((= n 0) (newline))
+        ((= n 1) (begin (display (head s))
+                        (print-first-n the-empty-stream (- n 1))))
+        (else  (begin (display (head s))
+                      (display ", ")
+                      (print-first-n (tail s) (- n 1))))))
+
+;testing
+;(print-first-n integers 4)   ;should print out: 1, 2, 3, 4
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;(2-d) define the fibs procedure
+
+(define (addL x y)
+   (cons-stream (+ (head x) (head y))
+                (addL (tail x) (tail y))))
+
+(define sums (cons-stream 1 (addL (tail ints) sums)))
+
+(define fibs
+  (cons-stream 1 
+          (cons-stream 1
+                 (addL (tail fibs) fibs))))
+
+;testing
+;(print-first-n (tail fibs) 7)
+;(print-first-n (tail fibs) 21)
+;(print-first-n (reorder (tail fibs) (tail fibs)) 7)
+;should print out: 1, 2, 3, 8, 34, 377, 17711
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

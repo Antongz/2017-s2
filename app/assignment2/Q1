@@ -1,0 +1,62 @@
+#|a1691807 Yi-Ting, Hsieh |#
+;for question1-a
+
+;define our make-account
+(define (make-account balance)
+  ;define our counoter to count how many transactions we call
+  (define (counter initial)
+    (let ((number initial))
+      (lambda (transaction)
+        (set! number (+ number transaction))
+        number)))
+  ;initial our counter first
+  (counter 0)
+  ;define our count
+  (define count (counter 0))
+  ;define our withdraw procedure, if the request is bigger than balance,
+  ;then it should return a warning message
+  (define (withdraw amount)
+    (if (>= balance amount)
+        (begin (set! balance (- balance amount))
+               (count 1)
+               balance)
+        "Insufficient funds"))
+  ;define our deposit procedure
+  (define (deposit amount)
+    (set! balance (+ balance amount))
+    (count 1)
+    balance)
+  ;define our dispatch procedure for user sending the request
+  (define (dispatch m)
+    (cond ((eq? m 'withdraw) withdraw)
+          ((eq? m 'deposit) deposit)
+          ((eq? m 'transaction) (count 0))
+          ((eq? m 'balance) balance)
+          (else (error "Unknown request -- MAKE-ACCOUNT"
+                       m))))
+  dispatch)
+
+
+
+(define acc1 (make-account 100))
+(define acc2 (make-account 200))
+;here is our test case
+;(acc1 'transaction)
+;(acc2 'transaction)
+;((acc1 'withdraw) 30)
+;(acc1 'transaction)
+;(acc1 'balance)
+;(acc2 'transaction)
+;(acc2 'balance)
+;((acc2 'withdraw) 150)
+;(acc2 'transaction)
+;(acc1 'transaction)
+;((acc1 'withdraw) 100)
+;(acc1 'transaction)
+;(acc1 'balance)
+;((acc1 'deposit) 100)
+;(acc1 'transaction)
+;(acc1 'balance)
+;(acc2 'transaction)
+
+
