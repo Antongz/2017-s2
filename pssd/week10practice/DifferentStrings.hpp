@@ -30,6 +30,7 @@ public:
         int pos = 0;
         for(int i=0;i<B.length();i++){
             int len = 0;
+            pos = i;
             for(int j=0;j<A.length();j++){
                 if(A[j]!=B[i+j])
                     len++;
