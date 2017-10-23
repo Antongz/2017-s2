@@ -21,45 +21,25 @@
 #include <string>
 #include <map>
 #include <algorithm>
+#include <math.h>
 
 using namespace std;
 
 class FillBox{
 
 public:
-    int minCubes(int length,int width,int height,vector<int> cubes){
-        int v = length*width*height;
-        int pos = (int)cubes.size()-1;
-        int countPow = (int)cubes.size()-1;
+    int minCubes(long long length,long long width,long long height,vector<int> cubes){
+        long long done = 0;
         int res = 0;
-        while(v>0&&pos>=0){
-            int temp = pow2(pos);
-            int comp = temp;
-            temp = temp*temp*temp;
-            if(comp<=length&&comp<=width&&comp<=height){
-                for(int i=0;i<cubes[pos];i++){
-                    if(v>=temp){
-                        res++;
-                        v -= temp;
-                    }
-                }
-            }
-            pos--;
-            if(v==0)
-                break;
+        for(int i=(int)cubes.size()-1;i>=0;i--){
+            done *= 8;
+            long long x = (1LL<<i);
+            long long t = (length/x)*(width/x)*(height/x) - done;
+            long long take = min(t,(long long)cubes[i]);
+            done += take;
+            res += take;
         }
-
-        if(v!=0)
-            return -1;
-        else
-            return res;
-    }
-
-    int pow2(int size){
-        int count = 1;
-        for(int i=0;i<size;i++)
-            count *= 2;
-        return count;
+        return (done==length*width*height? res:-1);
     }
 
 };
