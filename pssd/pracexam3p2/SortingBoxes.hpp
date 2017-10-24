@@ -63,7 +63,7 @@ public:
 			res += temp;
 		}
 
-		vector<int> pos0 = 0;
+		vector<int> pos0;
 		bool check = true;
 		for(int i=0;i<(int)count.size();i++){
 			if(count[i]==0)
@@ -74,8 +74,23 @@ public:
 			return res;
 
 		}else{
+			for(int i=0;i<(int)pos0.size();i++){
+				//no red ball
+				if(pos0[i]==0){
+					res -= red[maxR];
+					res += max(green[maxR],blue[maxR]);
+				}
+				//no green ball
+				if(pos0[i]==1){
+					res -= green[maxR];
+					res += max(red[maxR],blue[maxR]);
+				}
+				if(pos0[i]==2){
+					res -= blue[maxR];
+					res += max(green[maxR],red[maxR]);
+				}
 
-
+			}
 
 
 			return res;
