@@ -20,9 +20,6 @@ public:
 		int gBox = 0;	int rBox = 0;	int bBox = 0;
 		if((int)red.size()==1)
 			return -1;
-		if((int)red.size()==2){
-			if()
-		}
 
 		int res = 0;
 
