@@ -23,7 +23,7 @@ public:
 
 		int res = 0;
 
-		for(int i=0;i<(int)red.size;i++){
+		for(int i=0;i<(int)red.size();i++){
 			int temp = 0;
 			if(red[i]>=green[i]&&red[i]>=blue[i]){
 				temp = green[i] + blue[i];
