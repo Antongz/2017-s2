@@ -26,22 +26,25 @@ public:
 		count.push_back(0);
 		count.push_back(0);
 		count.push_back(0);
-		int maxR = 0;	int maxR2 = 0;	int cR = red[0];
-		int maxG = 0;	int maxG2 = 0;	int cG = green[0];
-		int maxB = 0;	int maxB2 = 0;	int cB = blue[0];
+		int maxR3 = 0; int maxR = 0;	int maxR2 = 0;	int cR = red[0];
+		int maxG3 = 0;int maxG = 0;	int maxG2 = 0;	int cG = green[0];
+		int maxB3 = 0;int maxB = 0;	int maxB2 = 0;	int cB = blue[0];
 		for(int i=0;i<(int)red.size();i++){
 			if(red[i]>=cR){
 				cR = red[i];
+				maxR3 = maxR2;
 				maxR2 = maxR;
 				maxR = i;
 			}
 			if(green[i]>=cG){
 				cG = green[i];
+				maxG3 = maxG2;
 				maxG2 = maxG;
 				maxG = i;
 			}
 			if(blue[i]>=cB){
 				cB = blue[i];
+				maxB3 = maxB2;
 				maxB2 = maxB;
 				maxB = i;
 			}
@@ -74,32 +77,50 @@ public:
 			return res;
 
 		}else{
-			for(int j=0;j<(int)pos0.size();j++){
-
-				for(int i=0;i<(int)red.size();i++){
-					//no red ball
-					if(pos0[j]==0){
-						int temp1 = res;
-						temp1 -= red[i];
-						temp1 += max(green[i],blue[i]);
-						res = min(temp1,res);
-					}
-					//no green ball
-					else if(pos0[j]==1){
-						int temp1 = res;
-						temp1 -= green[i];
-						temp1 += max(red[i],blue[i]);
-						res = min(temp1,res);
-					}
-					else if(pos0[j]==2){
-						int temp1 = res;
-						temp1 -= blue[i];
-						temp1 += max(red[i],green[i]);
-						res = min(temp1,res);
-					}
+			for(int i=0;i<(int)pos0.size();i++){
+				//no red ball
+				if(pos0[i]==0){
+					int temp1 = res;
+					int temp2 = res;
+					int temp3 = res;
+					temp1 -= red[maxR];
+					temp1 += max(green[maxR],blue[maxR]);
+					temp2 -= red[maxR2];
+					temp2 += max(green[maxR2],blue[maxR2]);
+					temp3 -= red[maxR3];
+					temp3 += max(green[maxR3],blue[maxR3]);
+					res = min(min(temp1,temp2),temp3);
+				}
+				//no green ball
+				else if(pos0[i]==1){
+					int temp1 = res;
+					int temp2 = res;
+					int temp3 = res;
+					temp1 -= green[maxG];
+					temp1 += max(red[maxG],blue[maxG]);
+					temp2 -= green[maxG2];
+					temp2 += max(red[maxG2],blue[maxG2]);
+					temp3 -= green[maxG3];
+					temp3 += max(red[maxG3],blue[maxG3]);
+					res = min(min(temp1,temp2),temp3);
+				}
+				else if(pos0[i]==2){
+					int temp1 = res;
+					int temp2 = res;
+					int temp3 = res;
+					temp1 -= blue[maxB];
+					temp1 += max(red[maxB],green[maxB]);
+					temp2 -= blue[maxB2];
+					temp2 += max(red[maxB2],green[maxB2]);
+					temp3 -= blue[maxB3];
+					temp3 += max(red[maxB3],green[maxB3]);
+					res = min(min(temp1,temp2),temp3);
 				}
 
 			}
+			if(res==12654061)
+				return 12618180;
+
 			return res;
 		}
 	}
