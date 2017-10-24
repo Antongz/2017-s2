@@ -75,19 +75,35 @@ public:
 
 		}else{
 			for(int i=0;i<(int)pos0.size();i++){
+
 				//no red ball
 				if(pos0[i]==0){
-					res -= red[maxR];
-					res += max(green[maxR],blue[maxR]);
+					int temp1 = res;
+					int temp2 = res;
+					temp1 -= red[maxR];
+					temp1 += max(green[maxR],blue[maxR]);
+					temp2 -= red[maxR2];
+					temp2 += max(green[maxR2],blue[maxR2]);
+					res = min(temp1,temp2);
 				}
 				//no green ball
-				if(pos0[i]==1){
-					res -= green[maxR];
-					res += max(red[maxR],blue[maxR]);
+				else if(pos0[i]==1){
+					int temp1 = res;
+					int temp2 = res;
+					temp1 -= green[maxG];
+					temp1 += max(red[maxG],blue[maxG]);
+					temp2 -= green[maxG2];
+					temp2 += max(red[maxG2],blue[maxG2]);
+					res = min(temp1,temp2);
 				}
-				if(pos0[i]==2){
-					res -= blue[maxR];
-					res += max(green[maxR],red[maxR]);
+				else if(pos0[i]==2){
+					int temp1 = res;
+					int temp2 = res;
+					temp1 -= blue[maxB];
+					temp1 += max(red[maxB],green[maxB]);
+					temp2 -= blue[maxB2];
+					temp2 += max(red[maxB2],green[maxB2]);
+					res = min(temp1,temp2);
 				}
 
 			}
