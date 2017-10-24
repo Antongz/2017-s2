@@ -15,7 +15,7 @@ using namespace std;
 class WordGame{
 
 public:
-	int BestScore(string S){
+	int bestScore(string S){
 		vector<int> count;
 		vector<char> charC;
 
