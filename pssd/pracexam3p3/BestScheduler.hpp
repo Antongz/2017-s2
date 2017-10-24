@@ -25,7 +25,8 @@ public:
 		for(int i=0;i<(int)prec.size();i++){
 
 			for(int j=0;j<(int)prec[0].length();j++){
-
+				if(prec[j]=='Y')
+					res += time[j];
 
 			}
 		}
