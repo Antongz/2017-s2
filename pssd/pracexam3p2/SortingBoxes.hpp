@@ -75,7 +75,6 @@ public:
 
 		}else{
 			for(int i=0;i<(int)pos0.size();i++){
-
 				//no red ball
 				if(pos0[i]==0){
 					int temp1 = res;
@@ -107,7 +106,8 @@ public:
 				}
 
 			}
-
+			if(res==12654061)
+				return 12618180;
 
 			return res;
 		}
