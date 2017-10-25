@@ -308,7 +308,7 @@ class Page{
             cout << "curworkingsets size is bigger than workingsets size" << endl;
     }
 
-    //adding a new page to our pages
+    //adding a new page to our pages table
     void addNew(Node* temp){
         //temp->prev = nullptr;
         if(curLength==0){
@@ -430,7 +430,7 @@ class Page{
         node->reference = 1;
         node->countWS = 0;
     }
-    //shift the 8bit registers of our pages table, for arb and wsarb
+    //shift the 8bit registers of our pages table, for arb and wsarb algorithm
     void shiftNodeARB(Node* node){
         if(node->reference==1){
             string newShiftBit = "1";
@@ -456,7 +456,7 @@ class Page{
             itr = itr->prev;
         }cout << endl;
     }
-    //add a new node to our working set
+    //add a new page to our working set
     void addWSNode(Node* node){
         Node* itr = WShead;
         bool checkIfInPages = false;
@@ -480,7 +480,7 @@ class Page{
             }
         }
     }
-    //decide which nodes we need to remove from our working sets
+    //decide which pages we need to remove from our working sets
     void removeWS(){
         Node* itr = WStail;
         while(itr!=nullptr){
@@ -572,7 +572,7 @@ class Page{
     }
 
 public:
-    //setting our page information
+    //setting our page information and requirements
     Page(string mode,string PageSize,string numberOfPage,string algorithm){
         this->mode = mode;
         if(mode=="debug")
@@ -581,7 +581,11 @@ public:
         this->numberOfPage = stoi(numberOfPage);
         this->algorithm = algorithm;
     }
-    //demand:W 0000000
+    //reading our inputs, line by line.
+    //if the demand starts with "#", then we check whether we need to do the context switch
+    //for wsarb algorithm.
+    //if the demand is just request reading/writing a memory address, then we decide which
+    //algorithm we're going to use and sending the request to our pagetable.
     void deMandPage(string demand){
         //e.g # 0 test1
         //      pid command
@@ -589,6 +593,7 @@ public:
             if(this->algorithm=="fifo"||this->algorithm=="arb"){
                 ;//printCurPageTable();
             }
+            //when we get a different process ID, we need to do the context swich for wsarb
             else if(this->algorithm=="wsarb"){
                 //cout << curWorkingSets << endl;
                 if(checkFirst){
@@ -768,11 +773,12 @@ public:
         cout << "page faults: " << pageFaults << endl;
         cout << "prefetch faults: " << preFetchFaults << endl;
     }
-
+    //setting the interval for shifting bits for arb algorithm
     void setARB(string arb){
         ARB = stoi(arb);
     }
-    //setting our working set arb register
+    //setting the interval for shifting bits for wsarb algorithm
+    //setting the size of our working sets model
     void setWSARB(string arb,string workingSize){
         ARB = stoi(arb);
         workingSets = stoi(workingSize);
